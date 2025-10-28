@@ -1,0 +1,65 @@
+# Decap CMS — modalità locale (più semplice per Viola)
+# In locale NON serve login. Il CMS scrive i file nel progetto.
+# Questo file può restare così anche in produzione: /admin online non funzionerà (ed è ok).
+local_backend: true
+
+backend:
+  name: github
+  repo: fedesnore/ViolaTotti   # se il repo cambia, aggiorna "owner/repo"
+  branch: main
+
+media_folder: "assets/images/works"
+public_folder: "/assets/images/works"
+
+collections:
+  - name: "contenuti"
+    label: "Contenuti"
+    files:
+      - name: "opere"
+        label: "Opere"
+        file: "data/works.json"
+        description: "Elenco opere visibile su Works e Work Detail"
+        fields:
+          - label: "Opere"
+            name: "works"
+            widget: "list"
+            summary: "{{fields.title}} ({{fields.slug}})"
+            fields:
+              - { label: "Slug", name: "slug", widget: "string", hint: "usato nell'URL: work-detail.html?work=SLUG" }
+              - { label: "Titolo", name: "title", widget: "string" }
+              - { label: "Anno", name: "year", widget: "string" }
+              - { label: "Medium", name: "medium", widget: "string" }
+              - { label: "Descrizione breve", name: "description", widget: "text", required: false }
+              - { label: "Materiali", name: "materials", widget: "string", required: false }
+              - { label: "Dimensioni", name: "dimensions", widget: "string", required: false }
+              - label: "Formato vetrina (altezza)"
+                name: "mediaType"
+                widget: "select"
+                options: ["portrait", "landscape"]
+                required: false
+              - label: "Immagini/Video"
+                name: "images"
+                widget: "list"
+                fields:
+                  - { label: "File", name: "src", widget: "image" }
+                  - { label: "Alt", name: "alt", widget: "string", required: false }
+                  - label: "Tipo media"
+                    name: "type"
+                    widget: "select"
+                    options: ["image", "video"]
+                    default: "image"
+                  - label: "Formato"
+                    name: "format"
+                    widget: "select"
+                    options: ["portrait", "landscape"]
+                    required: false
+              - label: "Testo di dettaglio (paragrafi)"
+                name: "detailText"
+                widget: "list"
+                field: { label: "Paragrafo", name: "paragraph", widget: "text" }
+                required: false
+              - label: "Opere correlate (slug)"
+                name: "related"
+                widget: "list"
+                field: { label: "Slug", name: "slug", widget: "string" }
+                required: false

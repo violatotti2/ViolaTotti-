@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viola Totti - Contact</title>
+    <style>
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            opacity: 0.7;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header styles */
+        header {
+            padding: 30px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            z-index: 1000;
+        }
+
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .brand-link {
+            text-decoration: none;
+            color: inherit;
+            display: inline-block;
+        }
+
+        .brand {
+            font-size: 32px;
+            font-weight: 400;
+            color: #333;
+        }
+
+        .sub-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Navigation styles */
+        nav {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 40px;
+        }
+
+        nav ul li a {
+            position: relative;
+            font-size: 16px;
+        }
+
+        nav ul li a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            background-color: #333;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a.active:after,
+        nav ul li a:hover:after {
+            width: 20px;
+        }
+
+        /* Contact Page Styles */
+        .contact-section {
+            padding: 180px 0 80px;
+        }
+
+        .page-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .contact-title {
+            font-size: 28px;
+            font-weight: 400;
+            margin-bottom: 60px;
+        }
+
+        /* Modificato per layout orizzontale */
+        .contact-layout {
+            display: flex;
+            flex-direction: row;
+            margin-top: 50px;
+        }
+
+        .contact-form {
+            width: 50%;
+            padding-right: 30px;
+        }
+
+        .contact-info {
+            width: 50%;
+            padding-left: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            background-color: #f2f2f2;
+            font-size: 14px;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: #aaa;
+        }
+
+        .form-textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 30px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .submit-btn {
+            padding: 12px 40px;
+            background-color: #333;
+            color: white;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #555;
+        }
+
+        .info-text {
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+
+        .social-links {
+            margin-top: 60px;
+        }
+
+        .social-title {
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .social-icon {
+            margin-right: 10px;
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Form validation styles */
+        .form-input.invalid,
+        .form-textarea.invalid {
+            border-color: #ff6b6b;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .success-message {
+            display: none;
+            padding: 15px;
+            background-color: #d4edda;
+            color: #155724;
+            margin-bottom: 20px;
+            border-left: 4px solid #155724;
+        }
+
+        /* Footer styles */
+        footer {
+            padding: 20px 0;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 80px;
+        }
+
+        /* Hamburger menu per mobile - stile aggiornato */
+        .hamburger {
+            display: none;
+            width: 30px;
+            height: 20px;
+            position: relative;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .hamburger span {
+            display: block;
+            position: absolute;
+            height: 2px;
+            width: 100%;
+            background: #333;
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: .25s ease-in-out;
+        }
+
+        .hamburger span:nth-child(1) {
+            top: 0px;
+        }
+
+        .hamburger span:nth-child(2),
+        .hamburger span:nth-child(3) {
+            top: 9px;
+        }
+
+        .hamburger span:nth-child(4) {
+            top: 18px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            top: 9px;
+            width: 0%;
+            left: 50%;
+        }
+
+        .hamburger.active span:nth-child(2) {
+            transform: rotate(45deg);
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg);
+        }
+
+        .hamburger.active span:nth-child(4) {
+            top: 9px;
+            width: 0%;
+            left: 50%;
+        }
+
+        /* Media queries for responsive design */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+                position: absolute;
+                top: 35px;
+                right: 20px;
+            }
+
+            nav {
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 70%;
+                height: 100vh;
+                background-color: rgba(255, 255, 255, 0.95);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                z-index: 999;
+            }
+
+            nav.active {
+                transform: translateX(0);
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+            }
+
+            nav ul li {
+                margin: 20px 0;
+                padding: 0;
+                width: 100%;
+                text-align: center;
+            }
+
+            nav ul li a {
+                display: block;
+                padding: 10px 0;
+            }
+
+            .contact-layout {
+                flex-direction: column;
+            }
+
+            .contact-form,
+            .contact-info {
+                width: 100%;
+                padding-right: 0;
+                padding-left: 0;
+            }
+
+            .contact-info {
+                margin-top: 60px;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <a href="index.html" class="brand-link">
+                <h1 class="brand">Viola Totti</h1>
+                <div class="sub-title">CONTACT</div>
+            </a>
+
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="works.html">Works</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html" class="active">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="contact-section">
+            <div class="container">
+                <div class="page-title">ENQUIRIES WELCOME</div>
+                <h1 class="contact-title">Commissions | Available works</h1>
+
+                <div class="contact-layout">
+                    <div class="contact-form">
+                        <div class="success-message" id="successMessage">
+                            Thank you for your message. I will respond within 48 hours.
+                        </div>
+
+                        <form id="contactForm" method="POST" action="send-email.php">
+                            <input type="hidden" name="recipient" value="federico.snore@icloud.com">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="firstName" class="form-label">First Name</label>
+                                    <input type="text" id="firstName" class="form-input" required>
+                                    <div class="error-message">Please enter your first name</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="lastName" class="form-label">Last Name</label>
+                                    <input type="text" id="lastName" class="form-input" required>
+                                    <div class="error-message">Please enter your last name</div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="subject" class="form-label">Subject</label>
+                                <input type="text" id="subject" class="form-input" required>
+                                <div class="error-message">Please enter a subject</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="message" class="form-label">Message</label>
+                                <textarea id="message" class="form-textarea" required></textarea>
+                                <div class="error-message">Please enter your message</div>
+                            </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="submit-btn">Send Message</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="contact-info">
+                        <p class="info-text">
+                            For any general inquiries or commission requests, please use the form provided. I typically respond within 48 hours, so if you haven't received a reply in that time frame, kindly check your spam folder.
+                        </p>
+
+                        <div class="social-links">
+                            <h3 class="social-title">Connect with me</h3>
+
+                            <a href="mailto:viola.totti2@gmail.com" class="social-link">
+                                <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                    <polyline points="22,6 12,13 2,6"></polyline>
+                                </svg>
+                                viola.totti2@gmail.com
+                            </a>
+
+                            <a href="https://linkedin.com/in/violatotti" target="_blank" class="social-link">
+                                <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                                    <rect x="2" y="9" width="4" height="12"></rect>
+                                    <circle cx="4" cy="4" r="2"></circle>
+                                </svg>
+                                LinkedIn
+                            </a>
+
+                            <a href="https://www.instagram.com/viola.totti" target="_blank" class="social-link">
+                                <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                                </svg>
+                                @viola.totti
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy;2025 Viola Totti - All Rights Reserved</p>
+    </footer>
+
+    <script>
+        // Toggle mobile menu
+        function toggleMenu() {
+            const nav = document.getElementById('mainNav');
+            const hamburger = document.querySelector('.hamburger');
+
+            nav.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const nav = document.getElementById('mainNav');
+            const hamburger = document.querySelector('.hamburger');
+
+            if (nav.classList.contains('active') &&
+                !nav.contains(event.target) &&
+                !hamburger.contains(event.target)) {
+                nav.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
+
+        // Form validation and submission
+        document.addEventListener('DOMContentLoaded', function() {
+            const contactForm = document.getElementById('contactForm');
+            const successMessage = document.getElementById('successMessage');
+
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    // Validate form
+                    let isValid = true;
+                    const inputs = contactForm.querySelectorAll('.form-input, .form-textarea');
+
+                    inputs.forEach(input => {
+                        if (!input.value.trim()) {
+                            input.classList.add('invalid');
+                            input.nextElementSibling.style.display = 'block';
+                            isValid = false;
+                        } else {
+                            input.classList.remove('invalid');
+                            input.nextElementSibling.style.display = 'none';
+                        }
+                    });
+
+                    // If valid, prepare email data and send
+                    if (isValid) {
+                        // Create form data for sending
+                        const formData = {
+                            firstName: document.getElementById('firstName').value.trim(),
+                            lastName: document.getElementById('lastName').value.trim(),
+                            subject: document.getElementById('subject').value.trim(),
+                            message: document.getElementById('message').value.trim(),
+                            recipient: 'viola.totti2@gmail.com'
+                        };
+
+                        // Send the email using an email service - this is where you'd typically make an AJAX call
+                        // Example using a server endpoint:
+                        fetch('send-email.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(formData)
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Show success message
+                                successMessage.style.display = 'block';
+                                contactForm.reset();
+
+                                // Hide success message after 5 seconds
+                                setTimeout(function() {
+                                    successMessage.style.display = 'none';
+                                }, 5000);
+                            } else {
+                                alert('There was an error sending your message. Please try again later.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('There was an error sending your message. Please try again later.');
+                        });
+
+                        // If you don't have a backend yet, show success message for now
+                        successMessage.style.display = 'block';
+                        contactForm.reset();
+
+                        // Hide success message after 5 seconds
+                        setTimeout(function() {
+                            successMessage.style.display = 'none';
+                        }, 5000);
+                    }
+                });
+
+                // Clear validation styles on input
+                const inputs = contactForm.querySelectorAll('.form-input, .form-textarea');
+                inputs.forEach(input => {
+                    input.addEventListener('input', function() {
+                        this.classList.remove('invalid');
+                        this.nextElementSibling.style.display = 'none';
+                    });
+                });
+            }
+        });
+
+        // Make logo clickable
+        document.addEventListener('DOMContentLoaded', function() {
+            const brandLink = document.querySelector('.brand-link');
+            if (brandLink) {
+                brandLink.addEventListener('click', function(e) {
+                    window.location.href = 'index.html';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

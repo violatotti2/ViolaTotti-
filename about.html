@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viola Totti - About</title>
+    <style>
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            opacity: 0.7;
+        }
+
+        /* Header styles */
+        header {
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            padding: 30px 50px;
+            transition: all 0.4s ease;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-size: 28px;
+            font-weight: 400;
+            color: #333;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .brand-link {
+            text-decoration: none;
+            color: inherit;
+            display: inline-block;
+            transition: opacity 0.3s ease;
+        }
+
+        .brand-link:hover {
+            opacity: 0.8;
+            cursor: pointer;
+        }
+
+        /* Navigation styles */
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 40px;
+        }
+
+        nav ul li a {
+            position: relative;
+            font-size: 16px;
+            color: #333;
+            letter-spacing: 1px;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            background-color: #333;
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover::after,
+        nav ul li a.active::after {
+            width: 100%;
+        }
+
+        /* Hero Section with Image */
+        .hero-about {
+            position: relative;
+            height: 100vh;
+            background-image: url('assets/images/works/artist/violatotti.jpeg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.1) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 600px;
+            padding: 80px;
+            color: #fff;
+        }
+
+        .hero-title {
+            font-size: 64px;
+            font-weight: 300;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+            color: #fff;
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            color: #fff;
+            margin-bottom: 25px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.9;
+        }
+
+        .hero-description {
+            font-size: 18px;
+            line-height: 1.7;
+            color: #fff;
+            opacity: 0.9;
+        }
+
+        /* Main Content */
+        .about-content {
+            padding: 120px 0;
+            background-color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 50px;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 60px;
+            align-items: start;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .bio-section h2 {
+            font-size: 32px;
+            font-weight: 300;
+            margin-bottom: 40px;
+            letter-spacing: -0.5px;
+        }
+
+        .bio-text {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 30px;
+        }
+
+        /* Artist Statement - le sue parole */
+        .artist-statement {
+            background-color: #f9f9f9;
+            padding: 50px;
+            border-left: 4px solid #333;
+            margin: 50px 0;
+        }
+
+        .statement-title {
+            font-size: 20px;
+            font-weight: 400;
+            margin-bottom: 25px;
+            color: #333;
+            font-style: italic;
+        }
+
+        .statement-text {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        /* Details Section - REMOVED */
+
+        /* Timeline Section */
+        .timeline-section {
+            padding: 100px 0;
+            background-color: #f9f9f9;
+        }
+
+        .timeline-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 50px;
+        }
+
+        .timeline-title {
+            font-size: 32px;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 60px;
+            letter-spacing: -0.5px;
+        }
+
+        .timeline {
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #ddd;
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 50px;
+            width: 50%;
+            padding: 0 40px;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+            text-align: left;
+        }
+
+        .timeline-content {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: 30px;
+            width: 0;
+            height: 0;
+            border: 10px solid transparent;
+            border-left-color: #fff;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content::after {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 30px;
+            width: 0;
+            height: 0;
+            border: 10px solid transparent;
+            border-right-color: #fff;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background-color: #333;
+            border-radius: 50%;
+            top: 30px;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-dot {
+            right: -8px;
+        }
+
+        .timeline-item:nth-child(even) .timeline-dot {
+            left: -8px;
+        }
+
+        .timeline-year {
+            font-size: 14px;
+            color: #666;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .timeline-event {
+            font-size: 18px;
+            font-weight: 400;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .timeline-place {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .timeline-description {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #666;
+        }
+
+        /* Footer */
+        footer {
+            padding: 50px;
+            background-color: #f2f2f2;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Hamburger menu for mobile */
+        .hamburger {
+            display: none;
+            width: 30px;
+            height: 20px;
+            position: relative;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .hamburger span {
+            display: block;
+            position: absolute;
+            height: 2px;
+            width: 100%;
+            background: #333;
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: .25s ease-in-out;
+        }
+
+        .hamburger span:nth-child(1) {
+            top: 0px;
+        }
+
+        .hamburger span:nth-child(2),
+        .hamburger span:nth-child(3) {
+            top: 9px;
+        }
+
+        .hamburger span:nth-child(4) {
+            top: 18px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            top: 9px;
+            width: 0%;
+            left: 50%;
+        }
+
+        .hamburger.active span:nth-child(2) {
+            transform: rotate(45deg);
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg);
+        }
+
+        .hamburger.active span:nth-child(4) {
+            top: 9px;
+            width: 0%;
+            left: 50%;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-content {
+                padding: 60px 50px;
+                max-width: 550px;
+            }
+
+            .hero-title {
+                font-size: 52px;
+            }
+
+            .content-grid {
+                gap: 60px;
+            }
+
+            .container, .timeline-container {
+                padding: 0 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 20px;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+
+            nav {
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 70%;
+                height: 100vh;
+                background-color: rgba(255, 255, 255, 0.95);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                z-index: 999;
+            }
+            
+            nav.active {
+                transform: translateX(0);
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav ul li {
+                margin: 20px 0;
+            }
+
+            .hero-about {
+                align-items: flex-end;
+                justify-content: center;
+            }
+
+            .hero-content {
+                margin: 0 20px 60px;
+                padding: 50px 40px;
+                max-width: none;
+                text-align: center;
+            }
+
+            .hero-title {
+                font-size: 42px;
+            }
+
+            .hero-subtitle {
+                font-size: 16px;
+            }
+
+            .hero-description {
+                font-size: 16px;
+            }
+
+            .about-content {
+                padding: 80px 0;
+            }
+
+            .container, .timeline-container {
+                padding: 0 20px;
+            }
+
+            .content-grid {
+                gap: 50px;
+            }
+
+            .artist-statement {
+                padding: 30px 20px;
+                margin: 40px 0;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                left: 0 !important;
+                text-align: left !important;
+                padding-left: 60px;
+            }
+
+            .timeline-content::after {
+                display: none;
+            }
+
+            .timeline-dot {
+                left: 12px !important;
+                right: auto !important;
+            }
+
+            .timeline-section {
+                padding: 80px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <a href="index.html" class="brand-link">
+                <h1 class="brand">Viola Totti</h1>
+            </a>
+            
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="works.html">Works</a></li>
+                    <li><a href="about.html" class="active">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero-about">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Viola Totti</h1>
+            <p class="hero-subtitle">Contemporary Artist</p>
+            <p class="hero-description">
+                Born in Siena in 2002, currently living in Montalcino where she continues developing her artistic research through the exploration of traditional techniques and contemporary narratives.
+            </p>
+        </div>
+    </section>
+
+    <section class="about-content">
+        <div class="container">
+            <div class="content-grid">
+                <div class="bio-section">
+                    <h2>Biography</h2>
+                    <p class="bio-text">
+                        Viola Totti was born in 2002 in Siena. She is now living in Montalcino where she is forward developing her artistic research. Viola studied at "Liceo Linguistico San Giovanni Bosco" in Colle Val D'Elsa.
+                    </p>
+                    <p class="bio-text">
+                        She graduated at LABA (Libera Accademia di Belle Arti) in Florence, where she is now studying portrait and visual art, deepening her understanding of both traditional and contemporary artistic practices.
+                    </p>
+
+                    <div class="artist-statement">
+                        <h3 class="statement-title">Artist Statement</h3>
+                        <p class="statement-text">
+                            "My artistic research consists in the study of the costumes of various historical eras applied to the faces of contemporary life. This investigation begins with the fifteenth century and continues progressively over time, with the aim of reaching our century."
+                        </p>
+                        <p class="statement-text">
+                            "The artistic technique that I am interested in exploring is egg tempera, a technique that initially corresponded to the one with which the artists of the time used to paint, but which I will continue to use even in more recent times, to confer uniformity and maintain a common thread that binds all the jobs."
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="timeline-section">
+        <div class="timeline-container">
+            <h2 class="timeline-title">Journey</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">Present</div>
+                        <h3 class="timeline-event">Artistic Research</h3>
+                        <div class="timeline-place">Montalcino, Tuscany</div>
+                        <p class="timeline-description">
+                            Currently developing artistic research focusing on the study of historical costumes applied to contemporary faces, continuing studies in portrait and visual art.
+                        </p>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">Recent</div>
+                        <h3 class="timeline-event">Graduation</h3>
+                        <div class="timeline-place">LABA, Florence</div>
+                        <p class="timeline-description">
+                            Graduated from LABA (Libera Accademia di Belle Arti) in Florence, establishing the foundations of artistic practice and research methodology.
+                        </p>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2021-2024</div>
+                        <h3 class="timeline-event">Quattr'Opere Project</h3>
+                        <div class="timeline-place">Family Heritage Work</div>
+                        <p class="timeline-description">
+                            Development of the Quattr'Opere series, exploring family heritage through egg tempera portraits, establishing artistic identity and technique mastery.
+                        </p>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">Previous</div>
+                        <h3 class="timeline-event">Linguistic Studies</h3>
+                        <div class="timeline-place">Liceo Linguistico San Giovanni Bosco, Colle Val D'Elsa</div>
+                        <p class="timeline-description">
+                            Completed linguistic studies, acquiring cultural knowledge and international perspective that would later influence artistic vision.
+                        </p>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2002</div>
+                        <h3 class="timeline-event">Born in Siena</h3>
+                        <div class="timeline-place">Tuscany, Italy</div>
+                        <p class="timeline-description">
+                            Born in Siena, in the heart of Tuscany, a region steeped in artistic heritage that would profoundly shape future artistic development.
+                        </p>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy;2025 Viola Totti - All Rights Reserved</p>
+    </footer>
+
+    <script>
+        // Toggle mobile menu
+        function toggleMenu() {
+            const nav = document.getElementById('mainNav');
+            const hamburger = document.querySelector('.hamburger');
+            
+            nav.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const nav = document.getElementById('mainNav');
+            const hamburger = document.querySelector('.hamburger');
+            
+            if (nav.classList.contains('active') && 
+                !nav.contains(event.target) && 
+                !hamburger.contains(event.target)) {
+                nav.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
+
+        // Animate timeline items on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            
+            function checkScroll() {
+                timelineItems.forEach((item, index) => {
+                    const itemPosition = item.getBoundingClientRect().top;
+                    const screenPosition = window.innerHeight / 1.3;
+                    
+                    if (itemPosition < screenPosition) {
+                        setTimeout(() => {
+                            item.style.opacity = 1;
+                            item.style.transform = 'translateY(0)';
+                        }, index * 100);
+                    }
+                });
+            }
+            
+            // Set initial state for timeline items
+            timelineItems.forEach(item => {
+                item.style.opacity = 0;
+                item.style.transform = 'translateY(30px)';
+                item.style.transition = 'all 0.6s ease';
+            });
+            
+            // Check scroll position on load and scroll
+            window.addEventListener('scroll', checkScroll);
+            checkScroll();
+
+            // Parallax effect for hero background - REMOVED problematic code
+            // window.addEventListener('scroll', function() {
+            //     const scrolled = window.pageYOffset;
+            //     const parallaxElement = document.querySelector('.hero-about');
+            //     const speed = scrolled * 0.5;
+                
+            //     if (parallaxElement) {
+            //         parallaxElement.style.transform = `translateY(${speed}px)`;
+            //     }
+            // });
+        });
+    </script>
+</body>
+</html>

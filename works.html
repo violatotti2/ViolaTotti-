@@ -1,0 +1,924 @@
+<!doctype html>
+<html lang="it"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viola Totti - Works</title>
+    <style>
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            opacity: 0.7;
+        }
+
+        /* Header styles */
+        header {
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            padding: 30px 50px;
+            transition: all 0.4s ease;
+            background-color: rgba(249, 249, 249, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-size: 28px;
+            font-weight: 400;
+            color: #333;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .brand-link {
+            text-decoration: none;
+            color: inherit;
+            display: inline-block;
+            transition: opacity 0.3s ease;
+        }
+
+        .brand-link:hover {
+            opacity: 0.8;
+            cursor: pointer;
+        }
+
+        /* Navigation styles */
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 40px;
+        }
+
+        nav ul li a {
+            position: relative;
+            font-size: 16px;
+            color: #333;
+            letter-spacing: 1px;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            background-color: #333;
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover::after,
+        nav ul li a.active::after {
+            width: 100%;
+        }
+
+        /* Gallery header */
+        .gallery-header {
+            padding: 150px 50px 80px;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .gallery-title {
+            font-size: 48px;
+            font-weight: 300;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+
+        .gallery-description {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #666;
+        }
+
+        /* Filter bar */
+        .filter-bar {
+            padding: 0 50px;
+            margin-bottom: 50px;
+            display: flex;
+            justify-content: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .filter-option {
+            padding: 15px 30px;
+            font-size: 16px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-option:hover {
+            color: #000;
+        }
+
+        .filter-option.active {
+            font-weight: 500;
+        }
+
+        .filter-option.active::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: #333;
+            bottom: -1px;
+            left: 0;
+        }
+
+        /* Gallery styles - Museum Layout */
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 20px;
+            padding: 0 50px;
+            margin-bottom: 100px;
+        }
+
+        .gallery-item {
+            position: relative;
+            margin-bottom: 30px;
+            overflow: hidden;
+            background-color: #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+        }
+
+        /* Different sized items for visual interest */
+        .gallery-item.large {
+            grid-column: span 6;
+        }
+
+        .gallery-item.medium {
+            grid-column: span 4;
+        }
+
+        .gallery-item.small {
+            grid-column: span 3;
+        }
+
+        .gallery-item.vertical {
+            grid-column: span 3;
+        }
+
+        /* Aspect ratio containers - FIXED TO ENSURE FULL COVERAGE */
+        .gallery-item-inner {
+            position: relative;
+            width: 100%;
+            display: block;
+            overflow: hidden;
+            background-color: #eee;
+        }
+
+        /* Portrait aspect ratio for vertical images */
+        .gallery-item.portrait .gallery-item-inner {
+            padding-bottom: 133.33%; /* 3:4 aspect ratio */
+        }
+
+        /* Landscape aspect ratio for horizontal images */
+        .gallery-item.landscape .gallery-item-inner {
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+        }
+
+        /* Square aspect ratio */
+        .gallery-item.square .gallery-item-inner {
+            padding-bottom: 100%; /* 1:1 aspect ratio */
+        }
+
+        /* FIXED: Ensure all images fill their containers completely */
+        .gallery-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: transform 0.5s ease;
+            /* Performance optimizations */
+            loading: lazy;
+            decoding: async;
+        }
+
+        .gallery-item:hover .gallery-image {
+            transform: scale(1.05);
+        }
+
+        /* Ensure videos also fill their containers properly */
+        .gallery-item video.gallery-image {
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            color: #fff;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+
+        .caption-title {
+            font-size: 18px;
+            font-weight: 400;
+            margin-bottom: 5px;
+        }
+
+        .caption-year {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        /* Badge for video */
+        .video-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            z-index: 2;
+        }
+
+        .video-badge svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* Museum wall effect */
+        .museum-wall {
+            padding: 30px 50px 100px;
+            background-color: #f0f0f0;
+            margin-top: 50px;
+        }
+
+        .wall-title {
+            font-size: 36px;
+            font-weight: 300;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .wall-collection {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .wall-item {
+            position: relative;
+            background-color: #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 20px;
+            transition: all 0.3s ease;
+            max-width: 400px;
+        }
+
+        .wall-item:hover {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+        }
+
+        .wall-item img {
+            width: 100%;
+            display: block;
+            object-fit: cover;
+            object-position: center;
+            height: 300px;
+            /* Performance optimizations */
+            loading: lazy;
+            decoding: async;
+        }
+
+        .wall-item-caption {
+            padding: 20px 0 10px;
+        }
+
+        .wall-item-title {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .wall-item-year {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Footer styles */
+        footer {
+            padding: 50px;
+            background-color: #f2f2f2;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Hamburger menu for mobile */
+        .hamburger {
+            display: none;
+            width: 30px;
+            height: 20px;
+            position: relative;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .hamburger span {
+            display: block;
+            position: absolute;
+            height: 2px;
+            width: 100%;
+            background: #333;
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: .25s ease-in-out;
+        }
+
+        .hamburger span:nth-child(1) {
+            top: 0px;
+        }
+
+        .hamburger span:nth-child(2),
+        .hamburger span:nth-child(3) {
+            top: 9px;
+        }
+
+        .hamburger span:nth-child(4) {
+            top: 18px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            top: 9px;
+            width: 0%;
+            left: 50%;
+        }
+
+        .hamburger.active span:nth-child(2) {
+            transform: rotate(45deg);
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg);
+        }
+
+        .hamburger.active span:nth-child(4) {
+            top: 9px;
+            width: 0%;
+            left: 50%;
+        }
+
+        /* Media queries for responsive design */
+        @media (max-width: 1024px) {
+            .gallery-container {
+                grid-template-columns: repeat(8, 1fr);
+            }
+
+            .gallery-item.large {
+                grid-column: span 4;
+            }
+
+            .gallery-item.medium {
+                grid-column: span 4;
+            }
+
+            .gallery-item.small {
+                grid-column: span 2;
+            }
+
+            .gallery-item.vertical {
+                grid-column: span 2;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 20px;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            nav {
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 70%;
+                height: 100vh;
+                background-color: rgba(249, 249, 249, 0.95);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                z-index: 999;
+            }
+
+            nav.active {
+                transform: translateX(0);
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav ul li {
+                margin: 20px 0;
+            }
+
+            .gallery-header {
+                padding: 120px 20px 60px;
+            }
+
+            .gallery-title {
+                font-size: 36px;
+            }
+
+            .filter-bar {
+                padding: 0 20px;
+                overflow-x: auto;
+                justify-content: flex-start;
+            }
+
+            .filter-option {
+                padding: 15px 20px;
+                white-space: nowrap;
+            }
+
+            .gallery-container {
+                grid-template-columns: repeat(4, 1fr);
+                padding: 0 20px;
+                gap: 10px;
+            }
+
+            .gallery-item.large,
+            .gallery-item.medium {
+                grid-column: span 4;
+            }
+
+            .gallery-item.small,
+            .gallery-item.vertical {
+                grid-column: span 2;
+            }
+
+            .museum-wall {
+                padding: 30px 20px 80px;
+            }
+
+            .wall-title {
+                font-size: 28px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gallery-container {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-item.large,
+            .gallery-item.medium,
+            .gallery-item.small,
+            .gallery-item.vertical {
+                grid-column: span 1;
+            }
+
+            .wall-collection {
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <a href="index.html" class="brand-link">
+                <h1 class="brand">Viola Totti</h1>
+            </a>
+
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="works.html" class="active">Works</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="gallery-header">
+        <h1 class="gallery-title">Works and Projects</h1>
+        <p class="gallery-description">Artistic exploration through portraits, traditional techniques, and commissioned works</p>
+    </div>
+
+    <div class="filter-bar">
+        <div class="filter-option active" data-filter="all">All Works</div>
+        <div class="filter-option" data-filter="portraits">Portraits</div>
+        <div class="filter-option" data-filter="commissions">Commissions</div>
+        <div class="filter-option" data-filter="techniques">Techniques</div>
+    </div>
+
+    <div class="gallery-container">
+  
+  
+  
+  
+  
+  
+        <!-- Quattr'opere - Hero image (laurea.jpg - orizzontale) -->
+        <div class="gallery-item large landscape" data-category="portraits">
+            <a href="work-detail.html?work=quattropere" class="gallery-item-inner">
+                <img src="assets/images/works/quattropere/laurea.jpg" alt="Quattr'Opere - Presentazione Laurea" class="gallery-image" loading="eager">
+                <div class="gallery-caption">
+                    <h3 class="caption-title">Quattr'Opere</h3>
+                    <p class="caption-year">2021-present</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Quattr'opere - Ritratti verticali -->
+        <div class="gallery-item small portrait" data-category="portraits">
+            <a href="work-detail.html?work=quattropere" class="gallery-item-inner">
+                <img src="assets/images/works/quattropere/RITRATTO_1.jpg" alt="Quattr'Opere - Ritratto 1" class="gallery-image" loading="eager">
+                <div class="gallery-caption">
+                    <h3 class="caption-title">Ritratto 1</h3>
+                    <p class="caption-year">2021-present</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="gallery-item small portrait" data-category="portraits">
+            <a href="work-detail.html?work=quattropere" class="gallery-item-inner">
+                <img src="assets/images/works/quattropere/RITRATTO_2.jpg" alt="Quattr'Opere - Ritratto 2" class="gallery-image" loading="lazy">
+                <div class="gallery-caption">
+                    <h3 class="caption-title">Ritratto 2</h3>
+                    <p class="caption-year">2021-present</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Barilotto - Immagini verticali + video -->
+        <div class="gallery-item medium portrait" data-category="commissions">
+            <a href="work-detail.html?work=barilotto" class="gallery-item-inner">
+                <img src="assets/images/works/barilotto/barilotto_1.jpg" alt="Barilotto - Decorazione botte" class="gallery-image" loading="lazy">
+                <div class="gallery-caption">
+                    <h3 class="caption-title">Barilotto</h3>
+                    <p class="caption-year">2024</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="gallery-item small portrait" data-category="commissions">
+            <a href="work-detail.html?work=barilotto" class="gallery-item-inner">
+                <video class="gallery-image" poster="assets/images/works/barilotto/barilotto_1.jpg" muted="" preload="none">
+                    <source src="assets/images/works/barilotto/BARILOTTO_VIDEO.mov" type="video/quicktime">
+                    <source src="assets/images/works/barilotto/BARILOTTO_VIDEO.mp4" type="video/mp4">
+                </video>
+                <div class="video-badge">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="white" stroke-width="2"></path>
+                        <path d="M9.5 8.5L16.5 12L9.5 15.5V8.5Z" fill="white" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                    Video
+                </div>
+                <div class="gallery-caption">
+                    <h3 class="caption-title">Barilotto - Processo</h3>
+                    <p class="caption-year">2024</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Pigmenti - Immagini orizzontali 16:9 - ORA RIEMPIONO COMPLETAMENTE I BOX -->
+        <div class="gallery-item medium landscape" data-category="techniques">
+            <a href="work-detail.html?work=pigmenti" class="gallery-item-inner">
+                <img src="assets/images/works/pigmenti/tuttipigmenti.jpg" alt="Pigmenti - Tutti i pigmenti" class="gallery-image" loading="lazy">
+                <div class="gallery-caption">
+                    <h3 class="caption-title">Pigmenti</h3>
+                    <p class="caption-year">2024</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="gallery-item small landscape" data-category="techniques">
+            <a href="work-detail.html?work=pigmenti" class="gallery-item-inner">
+                <img src="assets/images/works/pigmenti/robbia.jpg" alt="Pigmenti - Robbia" class="gallery-image" loading="lazy">
+                <div class="gallery-caption">
+                    <h3 class="caption-title">Robbia</h3>
+                    <p class="caption-year">2024</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="gallery-item small landscape" data-category="techniques">
+            <a href="work-detail.html?work=pigmenti" class="gallery-item-inner">
+                <img src="assets/images/works/pigmenti/QUADRETTIPIGMENTI.jpg" alt="Pigmenti - Quadretti" class="gallery-image" loading="lazy">
+                <div class="gallery-caption">
+                    <h3 class="caption-title">Quadretti Pigmenti</h3>
+                    <p class="caption-year">2024</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Altri ritratti di Quattr'opere -->
+        <div class="gallery-item small portrait" data-category="portraits">
+            <a href="work-detail.html?work=quattropere" class="gallery-item-inner">
+                <img src="assets/images/works/quattropere/RITRATTO_3.jpg" alt="Quattr'Opere - Ritratto 3" class="gallery-image" loading="lazy">
+                <div class="gallery-caption">
+                    <h3 class="caption-title">Ritratto 3</h3>
+                    <p class="caption-year">2021-present</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="gallery-item small portrait" data-category="portraits">
+            <a href="work-detail.html?work=quattropere" class="gallery-item-inner">
+                <img src="assets/images/works/quattropere/RITRATTO_4.jpg" alt="Quattr'Opere - Ritratto 4" class="gallery-image" loading="lazy">
+                <div class="gallery-caption">
+                    <h3 class="caption-title">Ritratto 4</h3>
+                    <p class="caption-year">2021-present</p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <section class="museum-wall">
+        <h2 class="wall-title">Featured Works</h2>
+
+        <div class="wall-collection">
+            <a href="work-detail.html?work=quattropere" class="wall-item">
+                <img src="assets/images/works/quattropere/RITRATTO_1.jpg" alt="Quattr'Opere" loading="lazy">
+                <div class="wall-item-caption">
+                    <h3 class="wall-item-title">Quattr'Opere</h3>
+                    <p class="wall-item-year">2021-present • Egg tempera on canvas</p>
+                </div>
+            </a>
+
+            <a href="work-detail.html?work=barilotto" class="wall-item">
+                <img src="assets/images/works/barilotto/barilotto_1.jpg" alt="Barilotto" loading="lazy">
+                <div class="wall-item-caption">
+                    <h3 class="wall-item-title">Barilotto</h3>
+                    <p class="wall-item-year">2024 • Commission</p>
+                </div>
+            </a>
+
+            <a href="work-detail.html?work=pigmenti" class="wall-item">
+                <img src="assets/images/works/pigmenti/tuttipigmenti.jpg" alt="Pigmenti" loading="lazy">
+                <div class="wall-item-caption">
+                    <h3 class="wall-item-title">Pigmenti</h3>
+                    <p class="wall-item-year">2024 • Technique research</p>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <p>©2025 Viola Totti - All Rights Reserved</p>
+    </footer>
+
+    <script>
+        // Toggle mobile menu
+        function toggleMenu() {
+            const nav = document.getElementById('mainNav');
+            const hamburger = document.querySelector('.hamburger');
+
+            nav.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const nav = document.getElementById('mainNav');
+            const hamburger = document.querySelector('.hamburger');
+
+            if (nav.classList.contains('active') &&
+                !nav.contains(event.target) &&
+                !hamburger.contains(event.target)) {
+                nav.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
+
+        // Filter functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterOptions = document.querySelectorAll('.filter-option');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+
+            filterOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Remove active class from all options
+                    filterOptions.forEach(opt => opt.classList.remove('active'));
+
+                    // Add active class to clicked option
+                    this.classList.add('active');
+
+                    // Get filter value
+                    const filterValue = this.getAttribute('data-filter');
+
+                    // Filter gallery items
+                    galleryItems.forEach(item => {
+                        const categories = item.getAttribute('data-category').split(' ');
+                        
+                        if (filterValue === 'all') {
+                            item.style.display = 'block';
+                        } else if (categories.includes(filterValue)) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // Video hover effects - OPTIMIZED
+            const videos = document.querySelectorAll('video');
+            videos.forEach(video => {
+                // Only load video when visible
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const video = entry.target;
+                            if (video.getAttribute('preload') === 'none') {
+                                video.setAttribute('preload', 'metadata');
+                            }
+                        }
+                    });
+                });
+                
+                observer.observe(video);
+                
+                video.addEventListener('mouseenter', function() {
+                    this.play().catch(() => {
+                        // Silently handle autoplay restrictions
+                    });
+                });
+                
+                video.addEventListener('mouseleave', function() {
+                    this.pause();
+                    this.currentTime = 0;
+                });
+            });
+
+            // Preload critical images
+            const criticalImages = [
+                'assets/images/works/quattropere/laurea.jpg',
+                'assets/images/works/quattropere/RITRATTO_1.jpg'
+            ];
+
+            criticalImages.forEach(src => {
+                const link = document.createElement('link');
+                link.rel = 'preload';
+                link.as = 'image';
+                link.href = src;
+                document.head.appendChild(link);
+            });
+        });
+    </script>
+
+
+<script>
+// Toggle mobile menu
+function toggleMenu() {
+  const nav = document.getElementById('mainNav');
+  const hamburger = document.querySelector('.hamburger');
+  nav.classList.toggle('active');
+  hamburger.classList.toggle('active');
+}
+document.addEventListener('click', function(event) {
+  const nav = document.getElementById('mainNav');
+  const hamburger = document.querySelector('.hamburger');
+  if (nav.classList.contains('active') && !nav.contains(event.target) && !hamburger.contains(event.target)) {
+    nav.classList.remove('active');
+    hamburger.classList.remove('active');
+  }
+});
+
+// Dynamic gallery from /data/works.json
+document.addEventListener('DOMContentLoaded', async function() {
+  const container = document.querySelector('.gallery-container');
+  if (!container) return;
+  try {
+    const res = await fetch('data/works.json?ts=' + Date.now(), { cache: 'no-store' });
+    const data = await res.json();
+    const works = (data.works || []);
+
+    function firstMedia(w) {
+      if (!w.images || !w.images.length) return null;
+      return w.images[0];
+    }
+    function categoryAttr(w) {
+      return (w.categories && w.categories.length ? w.categories.join(' ') : 'all');
+    }
+    function sizeClass(w) {
+      return (w.mediaType === 'landscape') ? 'medium landscape' : 'small portrait';
+    }
+    function videoBadgeIf(media) {
+      if (media && media.type === 'video') {
+        return '<div class="video-badge">          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="white" stroke-width="2"></path>            <path d="M9.5 8.5L16.5 12L9.5 15.5V8.5Z" fill="white" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>          </svg> Video</div>';
+      }
+      return '';
+    }
+
+    // Clear any static items then build
+    container.innerHTML = works.map(w => {
+      const m = firstMedia(w);
+      const classes = 'gallery-item ' + sizeClass(w);
+      const cat = categoryAttr(w);
+      const isVideo = m && m.type === 'video';
+      const poster = w.images && w.images.find(i => i.type === 'image') ? w.images.find(i => i.type === 'image').src : '';
+      const mediaEl = isVideo
+        ? '<video class="gallery-image" poster="' + poster + '" muted preload="none"><source src="' + m.src + '" type="video/quicktime"><source src="' + m.src.replace(/\.mov$/i, '.mp4') + '" type="video/mp4"></video>'
+        : '<img src="' + (m ? m.src : '') + '" alt="' + (w.title || '') + '" class="gallery-image" loading="lazy">';
+
+      return ''
+      + '<div class="' + classes + '" data-category="' + cat + '">'
+      + '  <a href="work-detail.html?work=' + w.slug + '" class="gallery-item-inner">'
+      +       videoBadgeIf(m) + mediaEl
+      + '    <div class="gallery-caption">'
+      + '      <h3 class="caption-title">' + (w.title || '') + '</h3>'
+      + '      <p class="caption-year">' + (w.year || '') + '</p>'
+      + '    </div>'
+      + '  </a>'
+      + '</div>';
+    }).join('');
+
+    // Filter logic
+    const filterOptions = document.querySelectorAll('.filter-option');
+    filterOptions.forEach(opt => {
+      opt.addEventListener('click', () => {
+        filterOptions.forEach(o => o.classList.remove('active'));
+        opt.classList.add('active');
+        const filter = opt.getAttribute('data-filter');
+        document.querySelectorAll('.gallery-item').forEach(item => {
+          if (filter === 'all') {
+            item.style.display = '';
+          } else {
+            const cats = (item.getAttribute('data-category') || '').split(/\s+/);
+            item.style.display = cats.includes(filter) ? '' : 'none';
+          }
+        });
+      });
+    });
+  } catch (e) {
+    console.error('Errore caricamento works.json', e);
+  }
+});
+</script>
+</body></html>

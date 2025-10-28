@@ -1,0 +1,158 @@
+{
+  "works": [
+    {
+      "related": [
+        "barilotto",
+        "pigmenti"
+      ],
+      "slug": "quattropere",
+      "materials": "Egg tempera on canvas",
+      "dimensions": "Various dimensions",
+      "medium": "Egg tempera on canvas",
+      "title": "Quattr'Opere",
+      "images": [
+        {
+          "src": "assets/images/works/quattropere/RITRATTO_1.jpg",
+          "alt": "Quattr'Opere - Portrait 1",
+          "type": "image",
+          "format": "portrait"
+        },
+        {
+          "src": "assets/images/works/quattropere/RITRATTO_2.jpg",
+          "alt": "Quattr'Opere - Portrait 2",
+          "type": "image",
+          "format": "portrait"
+        },
+        {
+          "src": "assets/images/works/quattropere/RITRATTO_3.jpg",
+          "alt": "Quattr'Opere - Portrait 3",
+          "type": "image",
+          "format": "portrait"
+        },
+        {
+          "src": "assets/images/works/quattropere/RITRATTO_4.jpg",
+          "alt": "Quattr'Opere - Portrait 4",
+          "type": "image",
+          "format": "portrait"
+        },
+        {
+          "src": "assets/images/works/quattropere/laurea.jpg",
+          "alt": "Quattr'Opere - Graduation Presentation",
+          "type": "image",
+          "format": "landscape"
+        }
+      ],
+      "categories": [
+        "portraits"
+      ],
+      "description": "The faces of my family through the old technique of egg tempera. Four portraits representing the family heritage that led to a connection with the land and the establishment of an agricultural business in the 20's, working territories that have belonged to our families for generations.",
+      "year": "2021-present",
+      "detailText": [
+        "The Quattr'Opere series represents the faces of my family through the old technique of egg tempera, capturing not just portraits but the essence of family heritage that shaped an entrepreneurial journey. Each face tells the story of generations connected to the land, inspiring the establishment of an agricultural business in the 20's on territories that have belonged to our families.",
+        "These four portraits have become more than artworks—they serve as the visual identity of our olive oil labels, rotating year by year. The choice of egg tempera, a technique dating back to medieval and Renaissance masters, reflects a commitment to tradition and authenticity, values that guide both artistic practice and agricultural endeavor on ancestral lands.",
+        "The connection between art and agriculture runs deep in this project. The meticulous preparation of pigments mixed with egg yolk mirrors the careful cultivation of olive groves. Each portrait captures the wisdom and dedication of previous generations, while the oil labels carry their legacy forward, creating a bridge between past and present, between artistic heritage and entrepreneurial vision."
+      ],
+      "mediaType": "portrait"
+    },
+    {
+      "related": [
+        "quattropere"
+      ],
+      "slug": "pigmenti",
+      "materials": "Self-produced natural pigments",
+      "dimensions": "Variable study format",
+      "medium": "Technique research - LABA works",
+      "title": "Pigmenti",
+      "images": [
+        {
+          "src": "assets/images/works/pigmenti/tuttipigmenti.jpg",
+          "alt": "Pigmenti - Complete overview",
+          "type": "image",
+          "format": "landscape"
+        },
+        {
+          "src": "assets/images/works/pigmenti/robbia.jpg",
+          "alt": "Pigmenti - Madder root",
+          "type": "image",
+          "format": "landscape"
+        },
+        {
+          "src": "assets/images/works/pigmenti/robbianelpiattino.jpg",
+          "alt": "Pigmenti - Madder in dish",
+          "type": "image",
+          "format": "landscape"
+        },
+        {
+          "src": "assets/images/works/pigmenti/robbialiquidariposo.jpg",
+          "alt": "Pigmenti - Liquid madder at rest",
+          "type": "image",
+          "format": "landscape"
+        },
+        {
+          "src": "assets/images/works/pigmenti/radiciepentola.jpg",
+          "alt": "Pigmenti - Roots and pot",
+          "type": "image",
+          "format": "landscape"
+        },
+        {
+          "src": "assets/images/works/pigmenti/QUADRETTIPIGMENTI.jpg",
+          "alt": "Pigmenti - Test squares",
+          "type": "image",
+          "format": "landscape"
+        }
+      ],
+      "categories": [
+        "techniques"
+      ],
+      "description": "A research project on creating natural pigments from organic materials. An exploration of traditional painting techniques through direct study of materials.",
+      "year": "2024",
+      "detailText": [
+        "The Pigmenti project represents in-depth research into traditional painting techniques, developed during my studies at LABA. The objective was to understand and experiment with color creation processes starting from natural materials.",
+        "The collection and preparation phase of organic materials (mainly madder roots) forms the basis of the project. Each pigment is extracted following historically documented methodologies, allowing direct understanding of the processes that artists of the past used daily.",
+        "The test squares document the different tones and intensities obtainable from each material, creating a true reference palette for future artistic applications. This research work provides a solid foundation for applying authentically traditional painting techniques."
+      ],
+      "mediaType": "landscape"
+    },
+    {
+      "related": [
+        "quattropere"
+      ],
+      "slug": "barilotto",
+      "materials": "Paint on wood",
+      "dimensions": "Standard barrel dimensions",
+      "medium": "Commission - Barrel decoration",
+      "title": "Barilotto",
+      "images": [
+        {
+          "src": "assets/images/works/barilotto/barilotto_1.jpg",
+          "alt": "Barilotto - Main view",
+          "type": "image",
+          "format": "portrait"
+        },
+        {
+          "src": "assets/images/works/barilotto/barilotto_2.jpg",
+          "alt": "Barilotto - Decoration detail",
+          "type": "image",
+          "format": "portrait"
+        },
+        {
+          "src": "assets/images/works/barilotto/BARILOTTO_VIDEO.mov",
+          "alt": "Barilotto - Working process",
+          "type": "video",
+          "format": "portrait"
+        }
+      ],
+      "categories": [
+        "commissions"
+      ],
+      "description": "An artistic decoration commission project for a wine barrel. A work that combines wine tradition with contemporary art.",
+      "year": "2024",
+      "detailText": [
+        "The Barilotto project originated from a private commission to decorate a wine barrel intended to become a decorative element. The main challenge was adapting my painting technique to the curved surface and particular texture of the barrel wood.",
+        "The working process required careful surface preparation and the use of wood-specific colors, ensuring both the durability of the work and compatibility with the enological use of the object.",
+        "The documentary video shows the main phases of the creative process, from initial preparation to the final details of the decoration."
+      ],
+      "mediaType": "portrait"
+    }
+  ]
+}
