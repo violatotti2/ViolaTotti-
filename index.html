@@ -542,131 +542,23 @@
           text-align: center;
       }
 
-      .intro-name {
-          font-size: 72px;
-          font-weight: 300;
-          color: #333;
-          letter-spacing: 2px;
-          text-transform: uppercase;
-          margin-bottom: 15px;
-          position: relative;
-          display: inline-block;
-          overflow: hidden;
-      }
-
-      .intro-name::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          right: 0;
-          width: 100%;
-          height: 100%;
-          background-color: #ffffff;
-          border-left: 2px solid #333;
-          animation: typing 1.2s steps(11) forwards, blink 0.5s infinite alternate;
-      }
-
-      .intro-subtitle {
-          font-size: 18px;
-          font-weight: 300;
-          color: #666;
-          letter-spacing: 2px;
-          text-transform: uppercase;
+      /* Stile per il logo dell'intro */
+      .intro-logo {
+          max-width: 500px; /* Aumentato molto la dimensione base (era 250px) */
+          height: auto;
           opacity: 0;
-          animation: fadeIn 0.6s ease forwards 1.3s;
-          margin-bottom: 40px;
+          animation: logoFadeIn 1.5s ease-out forwards;
       }
 
-      /* Pulsante Enter Site */
-      .enter-site-btn {
-          opacity: 0;
-          animation: fadeInUp 0.8s ease forwards 2.2s;
-          background: linear-gradient(135deg, #333 0%, #555 100%);
-          border: none;
-          padding: 18px 40px;
-          border-radius: 50px;
-          color: white;
-          font-size: 16px;
-          font-weight: 300;
-          letter-spacing: 2px;
-          text-transform: uppercase;
-          cursor: pointer;
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-          position: relative;
-          overflow: hidden;
-          margin-top: 20px;
-      }
-
-      .enter-site-btn::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-          transition: left 0.6s;
-      }
-
-      .enter-site-btn:hover::before {
-          left: 100%;
-      }
-
-      .enter-site-btn:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-          background: linear-gradient(135deg, #222 0%, #444 100%);
-      }
-
-      .enter-site-btn:active {
-          transform: translateY(0);
-      }
-
-      /* Pulse animation for attention */
-      .enter-site-btn {
-          animation: fadeInUp 0.8s ease forwards 2.2s, subtleGlow 3s ease-in-out 3s infinite;
-      }
-
-      @keyframes typing {
-          to {
-              width: 0;
-          }
-      }
-
-      @keyframes blink {
-          50% {
-              border-color: transparent;
-          }
-      }
-
-      @keyframes fadeIn {
+      /* Animazioni Logo */
+      @keyframes logoFadeIn {
           0% {
               opacity: 0;
-              transform: translateY(10px);
+              transform: scale(0.9);
           }
           100% {
               opacity: 1;
-              transform: translateY(0);
-          }
-      }
-
-      @keyframes fadeInUp {
-          0% {
-              opacity: 0;
-              transform: translateY(30px);
-          }
-          100% {
-              opacity: 1;
-              transform: translateY(0);
-          }
-      }
-
-      @keyframes subtleGlow {
-          0%, 100% {
-              box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-          }
-          50% {
-              box-shadow: 0 8px 25px rgba(0,0,0,0.2), 0 0 0 8px rgba(51,51,51,0.05);
+              transform: scale(1);
           }
       }
 
@@ -687,42 +579,16 @@ body > .intro-animation {
 
 /* Stili responsivi per l'animazione introduttiva su mobile */
 @media (max-width: 768px) {
-    .intro-name {
-        font-size: 48px; /* Riduzione della dimensione del font su mobile */
-    }
-
-    .intro-content {
-        padding: 0 20px; /* Aggiunge un po' di padding per evitare che il testo tocchi i bordi */
-    }
-
-    .intro-subtitle {
-        font-size: 16px; /* Dimensione leggermente ridotta per il sottotitolo */
-        margin-top: 5px; /* Avvicina il sottotitolo al nome */
-        margin-bottom: 30px;
-    }
-
-    .enter-site-btn {
-        padding: 15px 30px;
-        font-size: 14px;
-        margin-top: 15px;
-    }
-}
-
-/* Per schermi ancora più piccoli */
-@media (max-width: 480px) {
-    .intro-name {
-        font-size: 40px; /* Ulteriore riduzione per schermi molto piccoli */
+    .intro-logo {
+        max-width: 300px; /* Aumentato anche per mobile (era 180px) */
     }
 }
     </style>
 </head>
 <body>
-  <!-- Animazione introduttiva con pulsante Enter Site -->
-<div class="intro-animation" id="introAnimation">
+  <div class="intro-animation" id="introAnimation">
     <div class="intro-content">
-        <h1 class="intro-name">Viola Totti</h1>
-        <div class="intro-subtitle">Contemporary Artist</div>
-        <button class="enter-site-btn" id="enterSiteBtn">Enter Site</button>
+        <img src="assets/images/logo.png" alt="Viola Totti Art" class="intro-logo">
     </div>
 </div>
     <header id="mainHeader">
@@ -750,7 +616,6 @@ body > .intro-animation {
 
     <section class="hero">
         <div class="video-container">
-            <!-- Video per tutti i dispositivi -->
             <video class="video-background" muted="" loop="" playsinline="" preload="metadata">
                 <source src="assets/videos/Viola23.mp4" type="video/mp4">
             </video>
@@ -994,7 +859,7 @@ body > .intro-animation {
             setTimeout(function() {
                 introAnimation.style.display = 'none';
             }, 800);
-        }, 2500); // Tempo ridotto da 4500ms a 2500ms
+        }, 2500); // Durata totale visualizzazione logo
     });
 </script>
 
@@ -1016,7 +881,4 @@ body > .intro-animation {
   })();
 </script>
 </body>
-
-</html>
-
 </html>

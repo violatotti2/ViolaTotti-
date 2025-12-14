@@ -40,7 +40,7 @@
             background-color: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
         }
-        
+
         .header-inner {
             display: flex;
             justify-content: space-between;
@@ -428,7 +428,7 @@
             header {
                 padding: 20px;
             }
-            
+
             .hamburger {
                 display: block;
             }
@@ -447,7 +447,7 @@
                 transition: transform 0.3s ease;
                 z-index: 999;
             }
-            
+
             nav.active {
                 transform: translateX(0);
             }
@@ -534,14 +534,14 @@
             <a href="index.html" class="brand-link">
                 <h1 class="brand">Viola Totti</h1>
             </a>
-            
+
             <div class="hamburger" onclick="toggleMenu()">
                 <span></span>
                 <span></span>
                 <span></span>
                 <span></span>
             </div>
-            
+
             <nav id="mainNav">
                 <ul>
                     <li><a href="index.html">Home</a></li>
@@ -573,7 +573,7 @@
                         Viola Totti was born in 2002 in Siena. She is now living in Montalcino where she is forward developing her artistic research. Viola studied at "Liceo Linguistico San Giovanni Bosco" in Colle Val D'Elsa.
                     </p>
                     <p class="bio-text">
-                        She graduated at LABA (Libera Accademia di Belle Arti) in Florence, where she is now studying portrait and visual art, deepening her understanding of both traditional and contemporary artistic practices.
+                        She graduated at LABA (Libera Accademia di Belle Arti) in Florence. Currently, she is refining her technical skills by studying <strong>academic drawing at Studio Chiaro Scuro</strong> in the center of Florence, while simultaneously attending the <strong>Master's degree in Art History at the University of Siena</strong> to deepen her theoretical understanding of artistic evolution.
                     </p>
 
                     <div class="artist-statement">
@@ -594,13 +594,26 @@
         <div class="timeline-container">
             <h2 class="timeline-title">Journey</h2>
             <div class="timeline">
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-year">Present</div>
+                        <h3 class="timeline-event">Advanced Academic Studies</h3>
+                        <div class="timeline-place">Florence & Siena</div>
+                        <p class="timeline-description">
+                            Specializing in academic drawing at Studio Chiaro Scuro in Florence and pursuing a Master's degree in Art History at the University of Siena.
+                        </p>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
+
                 <div class="timeline-item">
                     <div class="timeline-content">
                         <div class="timeline-year">Present</div>
                         <h3 class="timeline-event">Artistic Research</h3>
                         <div class="timeline-place">Montalcino, Tuscany</div>
                         <p class="timeline-description">
-                            Currently developing artistic research focusing on the study of historical costumes applied to contemporary faces, continuing studies in portrait and visual art.
+                            Currently developing artistic research focusing on the study of historical costumes applied to contemporary faces.
                         </p>
                     </div>
                     <div class="timeline-dot"></div>
@@ -666,7 +679,7 @@
         function toggleMenu() {
             const nav = document.getElementById('mainNav');
             const hamburger = document.querySelector('.hamburger');
-            
+
             nav.classList.toggle('active');
             hamburger.classList.toggle('active');
         }
@@ -675,9 +688,9 @@
         document.addEventListener('click', function(event) {
             const nav = document.getElementById('mainNav');
             const hamburger = document.querySelector('.hamburger');
-            
-            if (nav.classList.contains('active') && 
-                !nav.contains(event.target) && 
+
+            if (nav.classList.contains('active') &&
+                !nav.contains(event.target) &&
                 !hamburger.contains(event.target)) {
                 nav.classList.remove('active');
                 hamburger.classList.remove('active');
@@ -687,12 +700,12 @@
         // Animate timeline items on scroll
         document.addEventListener('DOMContentLoaded', function() {
             const timelineItems = document.querySelectorAll('.timeline-item');
-            
+
             function checkScroll() {
                 timelineItems.forEach((item, index) => {
                     const itemPosition = item.getBoundingClientRect().top;
                     const screenPosition = window.innerHeight / 1.3;
-                    
+
                     if (itemPosition < screenPosition) {
                         setTimeout(() => {
                             item.style.opacity = 1;
@@ -701,28 +714,17 @@
                     }
                 });
             }
-            
+
             // Set initial state for timeline items
             timelineItems.forEach(item => {
                 item.style.opacity = 0;
                 item.style.transform = 'translateY(30px)';
                 item.style.transition = 'all 0.6s ease';
             });
-            
+
             // Check scroll position on load and scroll
             window.addEventListener('scroll', checkScroll);
             checkScroll();
-
-            // Parallax effect for hero background - REMOVED problematic code
-            // window.addEventListener('scroll', function() {
-            //     const scrolled = window.pageYOffset;
-            //     const parallaxElement = document.querySelector('.hero-about');
-            //     const speed = scrolled * 0.5;
-                
-            //     if (parallaxElement) {
-            //         parallaxElement.style.transform = `translateY(${speed}px)`;
-            //     }
-            // });
         });
     </script>
 </body>

@@ -1,1080 +1,406 @@
+
 <!doctype html>
-<html lang="it"><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viola Totti - Opera Dettaglio</title>
-    <style>
-        /* Base styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-        }
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Viola Totti - Opera Dettaglio</title>
+  <style>
+    /* Base */
+    * { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
+    body { background:#f9f9f9; color:#333; overflow-x:hidden; }
+    a { color:#333; text-decoration:none; transition:opacity .2s; }
+    a:hover { opacity:.75; }
 
-        body {
-            background-color: #f9f9f9;
-            color: #333;
-            overflow-x: hidden;
-        }
+    /* Header */
+    header { position:fixed; inset:0 0 auto 0; z-index:1000; padding:30px 50px;
+             background:rgba(249,249,249,.95); backdrop-filter: blur(10px); }
+    .header-inner { display:flex; align-items:center; justify-content:space-between; }
+    .brand { font-size:28px; font-weight:400; letter-spacing:1px; text-transform:uppercase; }
+    nav ul { list-style:none; display:flex; gap:40px; }
+    nav a { position:relative; }
+    nav a::after{ content:""; position:absolute; left:0; bottom:-5px; height:1px; width:0; background:#333; transition:width .2s; }
+    nav a:hover::after, nav a.active::after{ width:100%; }
 
-        a {
-            text-decoration: none;
-            color: #333;
-            transition: all 0.3s ease;
-        }
+    /* Page */
+    .gallery-detail{ padding:150px 0 100px; }
+    .exhibition-room{ max-width:1400px; margin:0 auto; display:flex; flex-direction:column; }
+    .exhibition-header{ padding:0 50px 50px; display:flex; justify-content:space-between; align-items:flex-start; gap:30px; }
+    .exhibition-title{ max-width:60%; }
+    .exhibition-title h1{ font-size:42px; font-weight:300; margin-bottom:10px; letter-spacing:-.5px; }
+    .exhibition-meta{ color:#666; margin-bottom:20px; }
+    .exhibition-meta span{ margin-right:18px; }
 
-        a:hover {
-            opacity: 0.7;
-        }
+    /* Showcase */
+    .artwork-showcase{ width:100%; position:relative; background:#eee; margin-bottom:30px; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+    .artwork-showcase.portrait{ height:80vh; }
+    .artwork-showcase.landscape{ height:70vh; }
+    .artwork-showcase.video{ height:75vh; }
+    .artwork-main{ width:100%; height:100%; display:flex; align-items:center; justify-content:center; position:relative; }
+    .artwork-main img, .artwork-main video{ max-width:100%; max-height:100%; object-fit:contain; transition:transform .25s; cursor:zoom-in; }
+    .artwork-main img.zoomed{ transform:scale(1.5); cursor:zoom-out; }
 
-        /* Header styles */
-        header {
-            position: fixed;
-            width: 100%;
-            z-index: 1000;
-            padding: 30px 50px;
-            transition: all 0.4s ease;
-            background-color: rgba(249, 249, 249, 0.95);
-            backdrop-filter: blur(10px);
-        }
-        
-        .header-inner {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    /* Image nav over media */
+    .image-nav-controls{ position:absolute; inset:0; display:flex; align-items:center; justify-content:space-between; pointer-events:none; padding:0 20px; }
+    .image-nav-btn{ pointer-events:auto; width:50px; height:50px; display:inline-flex; align-items:center; justify-content:center;
+                    background:rgba(255,255,255,.9); backdrop-filter: blur(10px);
+                    border:1px solid rgba(0,0,0,.1); border-radius:50%; transition:.2s; opacity:.8; }
+    .image-nav-btn:hover{ opacity:1; transform:scale(1.06); background:rgba(0,0,0,.85); border-color:rgba(0,0,0,.85); }
+    .image-nav-btn:hover path{ stroke:#fff; }
 
-        .brand {
-            font-size: 28px;
-            font-weight: 400;
-            color: #333;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
+    /* Thumbs */
+    .artwork-gallery{ padding:0 50px; margin-bottom:50px; }
+    .gallery-wall{ display:flex; flex-wrap:wrap; justify-content:center; gap:12px; max-width:900px; margin:0 auto; }
+    .gallery-thumbnail{ position:relative; overflow:hidden; background:#eee; border:2px solid transparent; border-radius:6px; cursor:pointer; transition:.2s; }
+    .gallery-thumbnail.portrait{ width:80px; height:100px; }
+    .gallery-thumbnail.landscape{ width:120px; height:80px; }
+    .gallery-thumbnail.active{ border-color:#333; transform:scale(1.04); box-shadow:0 4px 12px rgba(0,0,0,.15); }
+    .gallery-thumbnail img, .gallery-thumbnail video{ width:100%; height:100%; object-fit:cover; }
+    .thumbnail-video-badge{ position:absolute; top:4px; right:4px; background:rgba(0,0,0,.8); color:#fff; padding:1px 4px; border-radius:3px; font-size:8px; display:flex; align-items:center; gap:2px; }
+    .thumbnail-video-badge svg{ width:8px; height:8px; }
 
-        .brand-link {
-            text-decoration: none;
-            color: inherit;
-            display: inline-block;
-            transition: opacity 0.3s ease;
-        }
+    /* Details + related */
+    .artwork-info{ padding:0 50px; display:flex; gap:30px; margin-bottom:100px; }
+    .artwork-details{ flex:1; max-width:60%; padding-right:30px; }
+    .details-title{ font-size:24px; font-weight:400; margin-bottom:16px; }
+    .details-text{ font-size:16px; line-height:1.8; color:#333; margin-bottom:16px; }
+    .artwork-materials{ font-style:italic; color:#666; margin:14px 0; }
+    .artwork-dimensions{ color:#666; margin-bottom:6px; }
+    .artwork-sidebar{ flex:1; max-width:40%; background:#f2f2f2; padding:24px; }
+    .sidebar-title{ font-size:20px; font-weight:400; margin-bottom:14px; }
+    .related-works{ display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+    .related-item img{ width:100%; display:block; aspect-ratio:4/5; object-fit:cover; }
+    .related-item-title{ font-size:14px; text-align:center; margin-top:8px; }
 
-        .brand-link:hover {
-            opacity: 0.8;
-            cursor: pointer;
-        }
+    /* Work nav + back */
+    .work-navigation{ padding:50px; border-top:1px solid #eee; display:flex; justify-content:space-between; }
+    .nav-link{ display:flex; align-items:center; gap:12px; }
+    .back-to-gallery{ text-align:center; margin-bottom:100px; }
+    .gallery-btn{ display:inline-block; padding:15px 40px; border:1px solid #333; }
+    .gallery-btn:hover{ background:#333; color:#fff; }
 
-        /* Navigation styles */
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
+    /* Footer */
+    footer{ padding:50px; background:#f2f2f2; text-align:center; color:#666; font-size:14px; }
 
-        nav ul li {
-            margin-left: 40px;
-        }
+    /* Mobile */
+    .hamburger{ display:none; width:30px; height:20px; position:relative; cursor:pointer; z-index:1000; }
+    .hamburger span{ position:absolute; left:0; width:100%; height:2px; background:#333; transition:.25s; }
+    .hamburger span:nth-child(1){ top:0; } .hamburger span:nth-child(2), .hamburger span:nth-child(3){ top:9px; } .hamburger span:nth-child(4){ top:18px; }
+    .hamburger.active span:nth-child(1), .hamburger.active span:nth-child(4){ left:50%; width:0; top:9px; }
+    .hamburger.active span:nth-child(2){ transform:rotate(45deg); } .hamburger.active span:nth-child(3){ transform:rotate(-45deg); }
 
-        nav ul li a {
-            position: relative;
-            font-size: 16px;
-            color: #333;
-            letter-spacing: 1px;
-        }
-
-        nav ul li a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 1px;
-            background-color: #333;
-            bottom: -5px;
-            left: 0;
-            transition: width 0.3s ease;
-        }
-
-        nav ul li a:hover::after,
-        nav ul li a.active::after {
-            width: 100%;
-        }
-
-        /* Gallery Detail Styles */
-        .gallery-detail {
-            padding: 150px 0 100px;
-        }
-        
-        /* Exhibition Room Style */
-        .exhibition-room {
-            width: 100%;
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .exhibition-header {
-            padding: 0 50px 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-        
-        .exhibition-title {
-            max-width: 60%;
-        }
-        
-        .exhibition-title h1 {
-            font-size: 42px;
-            font-weight: 300;
-            margin-bottom: 10px;
-            letter-spacing: -0.5px;
-        }
-        
-        .exhibition-meta {
-            font-size: 18px;
-            color: #666;
-            margin-bottom: 20px;
-        }
-        
-        .exhibition-meta span {
-            display: inline-block;
-            margin-right: 20px;
-        }
-        
-        .exhibition-description {
-            font-size: 16px;
-            line-height: 1.6;
-            color: #333;
-            max-width: 600px;
-        }
-        
-        .exhibition-navigation {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        /* Main artwork display */
-        .artwork-showcase {
-            width: 100%;
-            position: relative;
-            background-color: #eee;
-            margin-bottom: 30px;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        /* Dynamic height based on content type */
-        .artwork-showcase.portrait {
-            height: 80vh;
-        }
-        
-        .artwork-showcase.landscape {
-            height: 70vh;
-        }
-        
-        .artwork-showcase.video {
-            height: 75vh;
-        }
-        
-        .artwork-main {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
-        
-        .artwork-main img, .artwork-main video {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            transition: transform 0.3s ease;
-            cursor: zoom-in;
-            /* Performance optimizations */
-            loading: lazy;
-            decoding: async;
-        }
-        
-        .artwork-main img.zoomed {
-            transform: scale(1.5);
-            cursor: zoom-out;
-        }
-        
-        .artwork-main video {
-            cursor: pointer;
-        }
-
-        /* Navigation buttons positioned over the image */
-        .image-nav-controls {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            padding: 0 20px;
-            pointer-events: none;
-        }
-
-        .image-nav-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 50px;
-            height: 50px;
-            background-color: rgba(255, 255, 255, 0.9);
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            pointer-events: auto;
-            opacity: 0.7;
-            backdrop-filter: blur(10px);
-        }
-
-        .image-nav-btn:hover {
-            opacity: 1;
-            background-color: rgba(0, 0, 0, 0.8);
-            border-color: rgba(0, 0, 0, 0.8);
-            transform: scale(1.1);
-        }
-
-        .image-nav-btn:hover svg path {
-            stroke: #fff;
-        }
-
-        .image-nav-btn:active {
-            transform: scale(0.95);
-        }
-        
-        /* Gallery wall for thumbnails - MIGLIORATO */
-        .artwork-gallery {
-            padding: 0 50px;
-            margin-bottom: 50px;
-        }
-        
-        .gallery-wall {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .gallery-thumbnail {
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            background-color: #eee;
-            transition: all 0.3s ease;
-            border-radius: 6px;
-            border: 2px solid transparent;
-            flex-shrink: 0;
-        }
-        
-        /* Dimensioni miniature ridotte */
-        .gallery-thumbnail.portrait {
-            width: 80px;
-            height: 100px;
-        }
-        
-        .gallery-thumbnail.landscape {
-            width: 120px;
-            height: 80px;
-        }
-        
-        .gallery-thumbnail.active {
-            border-color: #333;
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-        
-        .gallery-thumbnail img, .gallery-thumbnail video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-            /* Performance optimizations */
-            loading: lazy;
-            decoding: async;
-        }
-        
-        .gallery-thumbnail:hover {
-            transform: scale(1.08);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-        }
-        
-        .gallery-thumbnail:hover img, .gallery-thumbnail:hover video {
-            transform: scale(1.1);
-        }
-        
-        /* Video badge for thumbnails */
-        .thumbnail-video-badge {
-            position: absolute;
-            top: 4px;
-            right: 4px;
-            background-color: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 1px 4px;
-            border-radius: 3px;
-            font-size: 8px;
-            display: flex;
-            align-items: center;
-            gap: 2px;
-        }
-        
-        .thumbnail-video-badge svg {
-            width: 8px;
-            height: 8px;
-        }
-        
-        /* Artwork information section */
-        .artwork-info {
-            padding: 0 50px;
-            display: flex;
-            margin-bottom: 100px;
-        }
-        
-        .artwork-details {
-            flex: 1;
-            max-width: 60%;
-            padding-right: 50px;
-        }
-        
-        .details-title {
-            font-size: 24px;
-            font-weight: 400;
-            margin-bottom: 20px;
-            letter-spacing: -0.5px;
-        }
-        
-        .details-text {
-            font-size: 16px;
-            line-height: 1.8;
-            color: #333;
-            margin-bottom: 20px;
-        }
-        
-        .artwork-materials {
-            font-style: italic;
-            color: #666;
-            margin: 20px 0;
-        }
-        
-        .artwork-dimensions {
-            margin-bottom: 30px;
-            color: #666;
-        }
-        
-        .artwork-sidebar {
-            flex: 1;
-            max-width: 40%;
-            background-color: #f2f2f2;
-            padding: 30px;
-        }
-        
-        .sidebar-title {
-            font-size: 20px;
-            font-weight: 400;
-            margin-bottom: 20px;
-        }
-        
-        .related-works {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-        
-        .related-item {
-            position: relative;
-            overflow: hidden;
-            border-radius: 4px;
-        }
-        
-        .related-item img {
-            width: 100%;
-            height: auto;
-            display: block;
-            transition: transform 0.3s ease;
-            aspect-ratio: 4/5;
-            object-fit: cover;
-            /* Performance optimizations */
-            loading: lazy;
-            decoding: async;
-        }
-        
-        .related-item:hover img {
-            transform: scale(1.05);
-        }
-        
-        .related-item-title {
-            font-size: 14px;
-            margin-top: 10px;
-            text-align: center;
-        }
-        
-        /* Navigation to other works */
-        .work-navigation {
-            padding: 50px;
-            border-top: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-        }
-        
-        .nav-previous, .nav-next {
-            display: flex;
-            align-items: center;
-        }
-        
-        .nav-link {
-            display: flex;
-            align-items: center;
-            font-size: 16px;
-            letter-spacing: 1px;
-        }
-        
-        .nav-previous .nav-link svg {
-            margin-right: 15px;
-        }
-        
-        .nav-next .nav-link svg {
-            margin-left: 15px;
-        }
-        
-        .nav-link:hover {
-            opacity: 0.7;
-        }
-        
-        /* Back to gallery button */
-        .back-to-gallery {
-            text-align: center;
-            margin-bottom: 100px;
-        }
-        
-        .gallery-btn {
-            display: inline-block;
-            padding: 15px 40px;
-            border: 1px solid #333;
-            font-size: 16px;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-        }
-        
-        .gallery-btn:hover {
-            background-color: #333;
-            color: #fff;
-            opacity: 1;
-        }
-        
-        /* Hamburger menu for mobile */
-        .hamburger {
-            display: none;
-            width: 30px;
-            height: 20px;
-            position: relative;
-            cursor: pointer;
-            z-index: 1000;
-        }
-
-        .hamburger span {
-            display: block;
-            position: absolute;
-            height: 2px;
-            width: 100%;
-            background: #333;
-            opacity: 1;
-            left: 0;
-            transform: rotate(0deg);
-            transition: .25s ease-in-out;
-        }
-
-        .hamburger span:nth-child(1) {
-            top: 0px;
-        }
-
-        .hamburger span:nth-child(2),
-        .hamburger span:nth-child(3) {
-            top: 9px;
-        }
-
-        .hamburger span:nth-child(4) {
-            top: 18px;
-        }
-
-        .hamburger.active span:nth-child(1) {
-            top: 9px;
-            width: 0%;
-            left: 50%;
-        }
-
-        .hamburger.active span:nth-child(2) {
-            transform: rotate(45deg);
-        }
-
-        .hamburger.active span:nth-child(3) {
-            transform: rotate(-45deg);
-        }
-
-        .hamburger.active span:nth-child(4) {
-            top: 9px;
-            width: 0%;
-            left: 50%;
-        }
-        
-        /* Media queries for responsive design */
-        @media (max-width: 1024px) {
-            .exhibition-header {
-                flex-direction: column;
-            }
-            
-            .exhibition-title {
-                max-width: 100%;
-                margin-bottom: 30px;
-            }
-            
-            .artwork-info {
-                flex-direction: column;
-            }
-            
-            .artwork-details, .artwork-sidebar {
-                max-width: 100%;
-                padding-right: 0;
-            }
-            
-            .artwork-details {
-                margin-bottom: 50px;
-            }
-        }
-        
-                    @media (max-width: 768px) {
-            header {
-                padding: 20px;
-            }
-            
-            .hamburger {
-                display: block;
-            }
-
-            nav {
-                position: fixed;
-                top: 0;
-                right: 0;
-                width: 70%;
-                height: 100vh;
-                background-color: rgba(249, 249, 249, 0.95);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                transform: translateX(100%);
-                transition: transform 0.3s ease;
-                z-index: 999;
-            }
-            
-            nav.active {
-                transform: translateX(0);
-            }
-
-            nav ul {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            nav ul li {
-                margin: 20px 0;
-            }
-            
-            .gallery-detail {
-                padding: 120px 0 60px;
-            }
-            
-            .exhibition-header {
-                padding: 0 20px 30px;
-            }
-            
-            .exhibition-title h1 {
-                font-size: 32px;
-            }
-            
-            .artwork-showcase {
-                height: 50vh !important;
-            }
-
-            /* Navigation buttons smaller on mobile */
-            .image-nav-btn {
-                width: 40px;
-                height: 40px;
-            }
-
-            .image-nav-controls {
-                padding: 0 15px;
-            }
-            
-            .artwork-gallery {
-                padding: 0 20px;
-            }
-
-            /* Miniature più piccole su mobile */
-            .gallery-thumbnail.portrait {
-                width: 60px;
-                height: 75px;
-            }
-            
-            .gallery-thumbnail.landscape {
-                width: 90px;
-                height: 60px;
-            }
-
-            .gallery-wall {
-                gap: 8px;
-            }
-            
-            .artwork-info {
-                padding: 0 20px;
-            }
-            
-            .work-navigation {
-                padding: 30px 20px;
-                flex-direction: column;
-                align-items: center;
-                gap: 20px;
-            }
-        }
-        
-        /* Footer styles */
-        footer {
-            padding: 50px;
-            background-color: #f2f2f2;
-            text-align: center;
-            font-size: 14px;
-            color: #666;
-        }
-    </style>
+    @media (max-width:1024px){
+      .exhibition-header{ flex-direction:column; padding:0 20px 30px; }
+      .exhibition-title{ max-width:100%; }
+      .artwork-info{ flex-direction:column; padding:0 20px; }
+      .artwork-details, .artwork-sidebar{ max-width:100%; padding-right:0; }
+      .artwork-details{ margin-bottom:40px; }
+    }
+    @media (max-width:768px){
+      header{ padding:20px; }
+      .hamburger{ display:block; }
+      nav{ position:fixed; top:0; right:0; width:70%; height:100vh; background:rgba(249,249,249,.95);
+           display:flex; align-items:center; justify-content:center; transform:translateX(100%); transition:transform .25s; z-index:999; }
+      nav.active{ transform:translateX(0); }
+      nav ul{ flex-direction:column; gap:20px; }
+      .gallery-detail{ padding:120px 0 60px; }
+      .exhibition-title h1{ font-size:32px; }
+      .artwork-showcase{ height:50vh !important; }
+      .image-nav-btn{ width:40px; height:40px; }
+      .artwork-gallery{ padding:0 20px; }
+      .gallery-thumbnail.portrait{ width:60px; height:75px; }
+      .gallery-thumbnail.landscape{ width:90px; height:60px; }
+      .work-navigation{ padding:30px 20px; flex-direction:column; align-items:center; gap:18px; }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="header-inner">
-            <a href="index.html" class="brand-link">
-                <h1 class="brand">Viola Totti</h1>
-            </a>
-            
-            <div class="hamburger" onclick="toggleMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            
-            <nav id="mainNav">
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="works.html" class="active">Works</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-    
-    <div class="gallery-detail">
-        <div class="exhibition-room">
-            <div class="exhibition-header">
-                <div class="exhibition-title">
-                    <h1 id="workTitle">Loading...</h1>
-                    <div class="exhibition-meta">
-                        <span id="workYear">-</span>
-                        <span id="workMedium">-</span>
-                    </div>
-                    <div class="exhibition-description" id="workDescription">
-                        Loading description...
-                    </div>
-                </div>
-                
-                <div class="exhibition-navigation">
-                    <!-- Navigation buttons moved to image area -->
-                </div>
-            </div>
-            
-            <div class="artwork-showcase" id="artworkShowcase">
-                <div class="artwork-main">
-                    <img src="" alt="" id="mainArtworkImage" style="display: none;">
-                    <video id="mainArtworkVideo" style="display: none;" controls="">
-                        <source src="" type="video/quicktime">
-                        <source src="" type="video/mp4">
-                    </video>
-                </div>
-                
-                <!-- Navigation controls positioned over the image -->
-                <div class="image-nav-controls">
-                    <a href="#" class="image-nav-btn" id="prevImageBtn">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M15 18L9 12L15 6" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                        </svg>
-                    </a>
-                    
-                    <a href="#" class="image-nav-btn" id="nextImageBtn">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M9 18L15 12L9 6" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-            
-            <div class="artwork-gallery">
-                <div class="gallery-wall" id="galleryWall">
-                    <!-- Thumbnails will be populated by JavaScript -->
-                </div>
-            </div>
-            
-            <div class="artwork-info">
-                <div class="artwork-details">
-                    <h2 class="details-title">About this work</h2>
-                    <div id="detailsContent">
-                        <!-- Content will be populated by JavaScript -->
-                    </div>
-                    
-                    <div class="artwork-materials" id="artworkMaterials">
-                        -
-                    </div>
-                    
-                    <div class="artwork-dimensions" id="artworkDimensions">
-                        -
-                    </div>
-                </div>
-                
-                <div class="artwork-sidebar">
-                    <h3 class="sidebar-title">Related Works</h3>
-                    <div class="related-works" id="relatedWorks">
-                        <!-- Related works will be populated by JavaScript -->
-                    </div>
-                </div>
-            </div>
-            
-            <div class="work-navigation">
-                <div class="nav-previous">
-                    <a href="#" class="nav-link" id="prevWorkLink">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M19 12H5" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                            <path d="M12 19L5 12L12 5" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                        </svg>
-                        Previous Work
-                    </a>
-                </div>
-                <div class="nav-next">
-                    <a href="#" class="nav-link" id="nextWorkLink">
-                        Next Work
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M5 12H19" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                            <path d="M12 5L19 12L12 19" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-            
-            <div class="back-to-gallery">
-                <a href="works.html" class="gallery-btn">Back to Gallery</a>
-            </div>
-        </div>
+  <header>
+    <div class="header-inner">
+      <a href="index.html" class="brand-link"><h1 class="brand">Viola Totti</h1></a>
+      <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span><span></span></div>
+      <nav id="mainNav">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="works.html" class="active">Works</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
     </div>
-    
-    <footer>
-        <p>©2025 Viola Totti - All Rights Reserved</p>
-    </footer>
+  </header>
 
-    <script>
-    // Toggle mobile menu
-    function toggleMenu() {
-        const nav = document.getElementById('mainNav');
-        const hamburger = document.querySelector('.hamburger');
-        nav.classList.toggle('active');
-        hamburger.classList.toggle('active');
+  <div class="gallery-detail">
+    <div class="exhibition-room">
+      <div class="exhibition-header">
+        <div class="exhibition-title">
+          <h1 id="workTitle">Loading...</h1>
+          <div class="exhibition-meta">
+            <span id="workYear">-</span>
+            <span id="workMedium">-</span>
+          </div>
+          <div class="exhibition-description" id="workDescription">Loading description...</div>
+        </div>
+        <div class="exhibition-navigation"></div>
+      </div>
+
+      <div class="artwork-showcase" id="artworkShowcase">
+        <div class="artwork-main">
+          <img id="mainArtworkImage" src="" alt="" style="display:none;" />
+          <video id="mainArtworkVideo" style="display:none;" controls>
+            <source src="" type="video/quicktime" />
+            <source src="" type="video/mp4" />
+          </video>
+        </div>
+        <div class="image-nav-controls">
+          <a href="#" class="image-nav-btn" id="prevImageBtn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15 18L9 12L15 6" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </a>
+          <a href="#" class="image-nav-btn" id="nextImageBtn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 18L15 12L9 6" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="artwork-gallery">
+        <div class="gallery-wall" id="galleryWall"></div>
+      </div>
+
+      <div class="artwork-info">
+        <div class="artwork-details">
+          <h2 class="details-title">About this work</h2>
+          <div id="detailsContent"></div>
+          <div class="artwork-materials" id="artworkMaterials">-</div>
+          <div class="artwork-dimensions" id="artworkDimensions">-</div>
+        </div>
+        <div class="artwork-sidebar">
+          <h3 class="sidebar-title">Related Works</h3>
+          <div class="related-works" id="relatedWorks"></div>
+        </div>
+      </div>
+
+      <div class="work-navigation">
+        <div class="nav-previous"><a href="#" class="nav-link" id="prevWorkLink">◀︎ Previous Work</a></div>
+        <div class="nav-next"><a href="#" class="nav-link" id="nextWorkLink">Next Work ▶︎</a></div>
+      </div>
+
+      <div class="back-to-gallery">
+        <a href="works.html" class="gallery-btn">Back to Gallery</a>
+      </div>
+    </div>
+  </div>
+
+  <footer><p>©2025 Viola Totti - All Rights Reserved</p></footer>
+
+  <script>
+    // Mobile menu
+    function toggleMenu(){
+      const nav = document.getElementById('mainNav');
+      const hamburger = document.querySelector('.hamburger');
+      nav.classList.toggle('active');
+      hamburger.classList.toggle('active');
     }
-    // Close menu when clicking outside
-    document.addEventListener('click', function(event) {
-        const nav = document.getElementById('mainNav');
-        const hamburger = document.querySelector('.hamburger');
-        if (nav.classList.contains('active') && !nav.contains(event.target) && !hamburger.contains(event.target)) {
-            nav.classList.remove('active');
-            hamburger.classList.remove('active');
-        }
+    document.addEventListener('click', function(e){
+      const nav = document.getElementById('mainNav');
+      const hamburger = document.querySelector('.hamburger');
+      if (nav.classList.contains('active') && !nav.contains(e.target) && !hamburger.contains(e.target)){
+        nav.classList.remove('active'); hamburger.classList.remove('active');
+      }
     });
 
-    document.addEventListener('DOMContentLoaded', async function() {
-        let currentImageIndex = 0;
-        let currentWork = null;
-        let mediaItems = [];
+    document.addEventListener('DOMContentLoaded', async function(){
+      let currentImageIndex = 0;
+      let mediaItems = [];
+      let worksList = [];
+      let worksMap = {};
+      let order = [];
 
-        // Works data now loaded from /data/works.json (editable via /admin)
-        let works = {};          // map by slug
-        let worksList = [];      // ordered objects
-        let worksOrder = [];     // slugs in order
-
-        async function fetchWorks() {
-          const res = await fetch('data/works.json?ts=' + Date.now(), { cache: 'no-store' });
-          const db = await res.json();
-          worksList = Array.isArray(db.works) ? db.works : [];
-          worksOrder = worksList.map(w => w.slug);
-          // Normalize items and build map
-          works = {};
-          worksList.forEach(w => {
-            // detailText may be array of strings or array of objects ({paragraph})
-            if (Array.isArray(w.detailText)) {
-              w.detailText = w.detailText.map(p => (typeof p === 'string' ? p : (p && (p.paragraph || p.text)) || '')).filter(Boolean);
-            } else {
-              w.detailText = [];
-            }
-            // images: ensure array of objects with src/alt/type/format
-            if (Array.isArray(w.images)) {
-              w.images = w.images.map(img => {
-                if (typeof img === 'string') return { src: img, alt: w.title || '', type: 'image', format: 'portrait' };
-                return {
-                  src: img.src,
-                  alt: img.alt || (w.title || ''),
-                  type: img.type || 'image',
-                  format: img.format || 'portrait'
-                };
-              }).filter(x => x && x.src);
-            } else {
-              w.images = [];
-            }
-            works[w.slug] = w;
-          });
-        }
-
-        function getSlugFromURL() {
-          const urlParams = new URLSearchParams(window.location.search);
-          return urlParams.get('work') || (worksList[0] && worksList[0].slug) || '';
-        }
-        function getCurrentWorkKey() {
-            const slug = getSlugFromURL();
-            return slug || (worksList[0]?.slug) || '';
-        }
-
-        function loadWorkDetails() {
-            const workKey = getCurrentWorkKey();
-            currentWork = works[workKey] || works[worksOrder[0]];
-            if (!currentWork) return;
-
-            mediaItems = Array.isArray(currentWork.images) ? currentWork.images : [];
-
-            // Update page content
-            document.getElementById('workTitle').textContent = currentWork.title || '';
-            document.getElementById('workYear').textContent = currentWork.year || '';
-            document.getElementById('workMedium').textContent = currentWork.medium || '';
-            document.getElementById('workDescription').textContent = currentWork.description || '';
-            document.getElementById('artworkMaterials').textContent = currentWork.materials || '';
-            document.getElementById('artworkDimensions').textContent = currentWork.dimensions || '';
-
-            // Update detailed text
-            const detailsContent = document.getElementById('detailsContent');
-            detailsContent.innerHTML = '';
-            (currentWork.detailText || []).forEach(paragraph => {
-                const p = document.createElement('p');
-                p.className = 'details-text';
-                p.textContent = paragraph;
-                detailsContent.appendChild(p);
-            });
-
-            // Setup showcase based on media type
-            const showcase = document.getElementById('artworkShowcase');
-            showcase.className = `artwork-showcase ${currentWork.mediaType || ''}`;
-
-            // Populate thumbnails
-            populateThumbnails();
-
-            // Setup related works
-            setupRelatedWorks();
-
-            // Setup navigation
-            setupNavigation();
-
-            // Load first media item
-            setActiveMedia(0);
-        }
-
-        function populateThumbnails() {
-            const galleryWall = document.getElementById('galleryWall');
-            galleryWall.innerHTML = '';
-
-            mediaItems.forEach((item, index) => {
-                const thumbnail = document.createElement('div');
-                thumbnail.className = `gallery-thumbnail ${item.format || 'portrait'}`;
-                if (index === 0) thumbnail.classList.add('active');
-
-                let mediaElement;
-                if (item.type === 'video') {
-                    mediaElement = document.createElement('video');
-                    mediaElement.src = item.src;
-                    mediaElement.muted = true;
-                    mediaElement.preload = 'none';
-                    mediaElement.poster = mediaItems.find(m => m.type === 'image')?.src || '';
-                    const badge = document.createElement('div');
-                    badge.className = 'thumbnail-video-badge';
-                    badge.innerHTML = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 8.5L16.5 12L9.5 15.5V8.5Z" fill="white"/></svg> Video';
-                    thumbnail.appendChild(badge);
-                } else {
-                    mediaElement = document.createElement('img');
-                    mediaElement.src = item.src;
-                    mediaElement.alt = item.alt || currentWork.title || '';
-                    mediaElement.loading = index === 0 ? 'eager' : 'lazy';
-                    mediaElement.decoding = 'async';
-                }
-
-                thumbnail.appendChild(mediaElement);
-                thumbnail.addEventListener('click', () => setActiveMedia(index));
-                galleryWall.appendChild(thumbnail);
-            });
-        }
-
-        function setActiveMedia(index) {
-            if (!mediaItems.length) return;
-            const item = mediaItems[index];
-            const mainImage = document.getElementById('mainArtworkImage');
-            const mainVideo = document.getElementById('mainArtworkVideo');
-
-            mainImage.style.display = 'none';
-            mainVideo.style.display = 'none';
-
-            if (item.type === 'video') {
-                mainVideo.style.display = 'block';
-                const sources = mainVideo.querySelectorAll('source');
-                if (sources.length >= 2) {
-                    sources[0].src = item.src;
-                    sources[1].src = item.src.replace(/\.mov$/i, '.mp4');
-                } else {
-                    mainVideo.src = item.src;
-                }
-                mainVideo.load();
-            } else {
-                mainImage.style.display = 'block';
-                mainImage.src = item.src;
-                mainImage.alt = item.alt || currentWork.title || '';
-                mainImage.classList.remove('zoomed');
-            }
-
-            // Update thumbnail active state
-            document.querySelectorAll('.gallery-thumbnail').forEach((thumb, i) => {
-                thumb.classList.toggle('active', i === index);
-            });
-
-            currentImageIndex = index;
-        }
-
-        function setupRelatedWorks() {
-            const relatedWorksContainer = document.getElementById('relatedWorks');
-            relatedWorksContainer.innerHTML = '';
-
-            const currentKey = getCurrentWorkKey();
-            worksList.filter(w => w.slug !== currentKey).forEach(work => {
-                const a = document.createElement('a');
-                a.href = `work-detail.html?work=${work.slug}`;
-                a.className = 'related-item';
-
-                const cover = (work.images && work.images[0] && work.images[0].src) || '';
-                const img = document.createElement('img');
-                img.src = cover;
-                img.alt = work.title || '';
-
-                const title = document.createElement('div');
-                title.className = 'related-item-title';
-                title.textContent = work.title || '';
-
-                a.appendChild(img);
-                a.appendChild(title);
-                relatedWorksContainer.appendChild(a);
-            });
-        }
-
-        function setupNavigation() {
-            const order = (Array.isArray(worksOrder) && worksOrder.length) ? worksOrder : Object.keys(works);
-            const currentKey = getCurrentWorkKey();
-            const currentIndex = Math.max(0, order.indexOf(currentKey));
-            const prevIndex = currentIndex > 0 ? currentIndex - 1 : order.length - 1;
-            const nextIndex = currentIndex < order.length - 1 ? currentIndex + 1 : 0;
-            const prevKey = order[prevIndex];
-            const nextKey = order[nextIndex];
-            document.getElementById('prevWorkLink').href = `work-detail.html?work=${prevKey}`;
-            document.getElementById('nextWorkLink').href = `work-detail.html?work=${nextKey}`;
-        }
-
-        // Image nav buttons
-        const prevBtn = document.getElementById('prevImageBtn');
-        const nextBtn = document.getElementById('nextImageBtn');
-        prevBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            const newIndex = (currentImageIndex - 1 + mediaItems.length) % mediaItems.length;
-            setActiveMedia(newIndex);
+      async function loadDB(){
+        const res = await fetch('data/works.json?ts=' + Date.now(), { cache:'no-store' });
+        const db = await res.json();
+        worksList = Array.isArray(db.works) ? db.works : [];
+        // normalize
+        worksMap = {};
+        worksList.forEach(w => {
+          // detailText normalize
+          if (Array.isArray(w.detailText)) {
+            w.detailText = w.detailText.map(p => typeof p === 'string' ? p : (p && (p.paragraph || p.text)) || '').filter(Boolean);
+          } else { w.detailText = []; }
+          // images normalize
+          if (!Array.isArray(w.images)) w.images = [];
+          w.images = w.images.map(img => {
+            if (typeof img === 'string') return { src: img, alt: w.title || '', type:'image', format:'portrait' };
+            return { src: img.src, alt: (img.alt || w.title || ''), type: (img.type || 'image'), format: (img.format || 'portrait') };
+          }).filter(it => it && it.src);
+          worksMap[w.slug] = w;
         });
-        nextBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            const newIndex = (currentImageIndex + 1) % mediaItems.length;
-            setActiveMedia(newIndex);
+        order = worksList.map(w => w.slug);
+      }
+
+      function paramSlug(){
+        const u = new URLSearchParams(location.search);
+        return u.get('work') || (order[0] || '');
+      }
+
+      function renderWork(slug){
+        const w = worksMap[slug] || worksMap[order[0]];
+        if (!w){ return; }
+
+        // Header text
+        const t = id => document.getElementById(id);
+        t('workTitle').textContent = w.title || '';
+        t('workYear').textContent = w.year || '';
+        t('workMedium').textContent = w.medium || '';
+        t('workDescription').textContent = w.description || '';
+        t('artworkMaterials').textContent = w.materials || '';
+        t('artworkDimensions').textContent = w.dimensions || '';
+
+        // Details paragraphs
+        const details = t('detailsContent');
+        details.innerHTML = '';
+        (w.detailText || []).forEach(p => {
+          const el = document.createElement('p');
+          el.className = 'details-text';
+          el.textContent = p;
+          details.appendChild(el);
         });
 
-        // Keyboard shortcuts
-        document.addEventListener('keydown', function(e) {
-            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-                e.preventDefault(); prevBtn.click();
-            } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-                e.preventDefault(); nextBtn.click();
-            } else if (e.key === 'Escape') {
-                const mainImage = document.getElementById('mainArtworkImage');
-                mainImage.classList.remove('zoomed');
-            }
+        // Showcase class
+        const sc = document.getElementById('artworkShowcase');
+        sc.className = 'artwork-showcase ' + (w.mediaType || 'portrait');
+
+        // Thumbnails
+        mediaItems = w.images || [];
+        const wall = document.getElementById('galleryWall');
+        wall.innerHTML = '';
+        mediaItems.forEach((item, i) => {
+          const th = document.createElement('div');
+          th.className = 'gallery-thumbnail ' + (item.format || 'portrait');
+          if (i === 0) th.classList.add('active');
+          let node;
+          if (item.type === 'video'){
+            node = document.createElement('video');
+            node.src = item.src;
+            node.muted = true; node.preload = 'none';
+            node.poster = (mediaItems.find(m => m.type==='image')?.src) || '';
+            const badge = document.createElement('div');
+            badge.className = 'thumbnail-video-badge';
+            badge.innerHTML = '<svg viewBox="0 0 24 24"><path d="M9.5 8.5L16.5 12L9.5 15.5V8.5Z" fill="white"/></svg> Video';
+            th.appendChild(badge);
+          } else {
+            node = document.createElement('img');
+            node.src = item.src; node.alt = item.alt || w.title || '';
+            node.loading = i === 0 ? 'eager' : 'lazy';
+            node.decoding = 'async';
+          }
+          th.appendChild(node);
+          th.addEventListener('click', () => setActiveMedia(i));
+          wall.appendChild(th);
         });
 
-        // Touch/swipe
-        let touchStartX = 0, touchEndX = 0, touchStartY = 0, touchEndY = 0;
-        const artworkMain = document.querySelector('.artwork-main');
-        artworkMain.addEventListener('touchstart', function(e) {
-            touchStartX = e.changedTouches[0].screenX;
-            touchStartY = e.changedTouches[0].screenY;
-        }, { passive: true });
-        artworkMain.addEventListener('touchend', function(e) {
-            touchEndX = e.changedTouches[0].screenX;
-            touchEndY = e.changedTouches[0].screenY;
-            const swipeThreshold = 50;
-            const verticalThreshold = 100;
-            const horizontal = Math.abs(touchEndX - touchStartX);
-            const vertical = Math.abs(touchEndY - touchStartY);
-            if (horizontal > vertical) {
-                if (touchEndX < touchStartX - swipeThreshold) nextBtn.click();
-                else if (touchEndX > touchStartX + swipeThreshold) prevBtn.click();
-            }
-        }, { passive: true });
+        // Prev/Next work
+        const idx = order.indexOf(slug);
+        const prevIdx = idx > 0 ? idx - 1 : order.length - 1;
+        const nextIdx = idx < order.length - 1 ? idx + 1 : 0;
+        const prevKey = order[prevIdx];
+        const nextKey = order[nextIdx];
+        const prevLink = document.getElementById('prevWorkLink');
+        const nextLink = document.getElementById('nextWorkLink');
+        if (prevLink) prevLink.href = 'work-detail.html?work=' + prevKey;
+        if (nextLink) nextLink.href = 'work-detail.html?work=' + nextKey;
 
-        // Zoom on click
-        document.addEventListener('click', function(e) {
-            if (e.target.id === 'mainArtworkImage') {
-                e.target.classList.toggle('zoomed');
-            }
+        // Related
+        const rel = document.getElementById('relatedWorks');
+        rel.innerHTML = '';
+        worksList.filter(x => x.slug !== slug).forEach(x => {
+          const a = document.createElement('a');
+          a.href = 'work-detail.html?work=' + x.slug;
+          a.className = 'related-item';
+          const cover = (x.images && x.images[0] && x.images[0].src) || '';
+          const img = document.createElement('img'); img.src = cover; img.alt = x.title || '';
+          const title = document.createElement('div'); title.className = 'related-item-title'; title.textContent = x.title || '';
+          a.appendChild(img); a.appendChild(title);
+          rel.appendChild(a);
         });
 
-        // Lazy video preload
-        function setupVideoObserver() {
-            const videos = document.querySelectorAll('video[preload="none"]');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const video = entry.target;
-                        video.preload = 'metadata';
-                        observer.unobserve(video);
-                    }
-                });
-            });
-            videos.forEach(video => observer.observe(video));
+        // First media
+        setActiveMedia(0);
+      }
+
+      function setActiveMedia(i){
+        if (!mediaItems.length) return;
+        const item = mediaItems[i];
+        const mainImg = document.getElementById('mainArtworkImage');
+        const mainVideo = document.getElementById('mainArtworkVideo');
+        mainImg.style.display = 'none';
+        mainVideo.style.display = 'none';
+        if (item.type === 'video'){
+          mainVideo.style.display = 'block';
+          const sources = mainVideo.querySelectorAll('source');
+          if (sources.length >= 2){
+            sources[0].src = item.src;
+            sources[1].src = item.src.replace(/\.mov$/i, '.mp4');
+          } else { mainVideo.src = item.src; }
+          mainVideo.load();
+        } else {
+          mainImg.style.display = 'block';
+          mainImg.src = item.src;
+          mainImg.alt = item.alt || '';
+          mainImg.classList.remove('zoomed');
         }
+        document.querySelectorAll('.gallery-thumbnail').forEach((el, idx) => el.classList.toggle('active', idx === i));
+        currentImageIndex = i;
+      }
 
-        await fetchWorks();
-        loadWorkDetails();
-        setTimeout(setupVideoObserver, 500);
+      // Image nav
+      const prevBtn = document.getElementById('prevImageBtn');
+      const nextBtn = document.getElementById('nextImageBtn');
+      if (prevBtn && nextBtn){
+        prevBtn.addEventListener('click', e => { e.preventDefault(); setActiveMedia((currentImageIndex - 1 + mediaItems.length) % mediaItems.length); });
+        nextBtn.addEventListener('click', e => { e.preventDefault(); setActiveMedia((currentImageIndex + 1) % mediaItems.length); });
+      }
+
+      // Keyboard
+      document.addEventListener('keydown', e => {
+        if (['INPUT','TEXTAREA'].includes(e.target.tagName)) return;
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); if (prevBtn) prevBtn.click(); }
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); if (nextBtn) nextBtn.click(); }
+        if (e.key === 'Escape') { const img = document.getElementById('mainArtworkImage'); img && img.classList.remove('zoomed'); }
+      });
+
+      // Swipe
+      let sx=0, sy=0, ex=0, ey=0;
+      const area = document.querySelector('.artwork-main');
+      if (area){
+        area.addEventListener('touchstart', e => { sx = e.changedTouches[0].screenX; sy = e.changedTouches[0].screenY; }, { passive:true });
+        area.addEventListener('touchend', e => {
+          ex = e.changedTouches[0].screenX; ey = e.changedTouches[0].screenY;
+          const hx = Math.abs(ex - sx), hy = Math.abs(ey - sy);
+          if (hx > hy && hx > 50){ if (ex < sx) nextBtn && nextBtn.click(); else prevBtn && prevBtn.click(); }
+        }, { passive:true });
+      }
+
+      // Zoom toggle
+      document.addEventListener('click', e => { if (e.target && e.target.id === 'mainArtworkImage') e.target.classList.toggle('zoomed'); });
+
+      // Lazy video preload
+      function setupVideoObserver(){
+        const vids = document.querySelectorAll('video[preload="none"]');
+        const obs = new IntersectionObserver(entries => {
+          entries.forEach(en => { if (en.isIntersecting){ en.target.preload = 'metadata'; obs.unobserve(en.target); } });
+        });
+        vids.forEach(v => obs.observe(v));
+      }
+
+      // Boot
+      await loadDB();
+      renderWork(paramSlug());
+      setTimeout(setupVideoObserver, 400);
     });
-</script>
-</body></html>
+  </script>
+</body>
+</html>
