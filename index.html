@@ -1,609 +1,182 @@
 <!doctype html>
-<html lang="it"><head>
+<html lang="en"> <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viola Totti</title>
+
+    <meta name="google-site-verification" content="iAOyLXcSt9qt0CNXTXiXI3pxxcc4ulHslAaNrjX9Ko8" />
+
+    <title>Viola Totti | Artist in Montalcino - Figurative Art Tuscany</title>
+
+    <meta name="description" content="Viola Totti is a contemporary figurative artist based in Montalcino (Siena), Tuscany. Exploring traditional egg tempera and visual narratives in the heart of Val d'Orcia.">
+
+    <meta name="keywords" content="Viola Totti, Artisti Montalcino, Pittori Toscana, Arte Figurativa, Figurative Art Tuscany, Montalcino Artist, Italian Contemporary Art, Egg Tempera">
+
+    <meta property="og:title" content="Viola Totti - Artist in Montalcino">
+    <meta property="og:description" content="Contemporary figurative art from the heart of Tuscany.">
+    <meta property="og:image" content="https://violatotti.com/assets/images/video-cover.jpg">
+    <meta property="og:url" content="https://violatotti.com">
+    <meta property="og:type" content="website">
+
     <style>
         /* Base styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
+        body { background-color: #f9f9f9; color: #333; overflow-x: hidden; }
+        a { text-decoration: none; color: #333; transition: all 0.3s ease; }
+        a:hover { opacity: 0.7; }
 
-        body {
-            background-color: #f9f9f9;
-            color: #333;
-            overflow-x: hidden;
-        }
-
-        a {
-            text-decoration: none;
-            color: #333;
-            transition: all 0.3s ease;
-        }
-
-        a:hover {
-            opacity: 0.7;
-        }
-        .brand-link {
-    text-decoration: none;
-    color: inherit;
-    display: inline-block;
-    transition: opacity 0.3s ease;
-}
-
-.brand-link:hover {
-    opacity: 0.8;
-    cursor: pointer;
-}
+        .brand-link { text-decoration: none; color: inherit; display: inline-block; transition: opacity 0.3s ease; }
+        .brand-link:hover { opacity: 0.8; cursor: pointer; }
 
         /* Video hero section */
-        .hero {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            overflow: hidden;
-        }
+        .hero { position: relative; width: 100%; height: 100vh; overflow: hidden; }
+        .video-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 1; }
+        .video-background { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; object-fit: cover; }
 
-        .video-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 1;
-        }
+        /* HERO OVERLAY & CONTENT */
+        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.1)); z-index: 2; }
+        .hero-content { position: absolute; top: 25%; left: 100px; z-index: 3; color: #fff; max-width: 600px; pointer-events: none; }
+        .hero-content * { pointer-events: auto; }
 
-        .video-background {
+        .hero-content h1 { font-size: 72px; font-weight: 300; margin-bottom: 20px; line-height: 1.1; letter-spacing: -1px; }
+        .hero-content p { font-size: 20px; line-height: 1.5; margin-bottom: 30px; font-weight: 300; }
+
+        .hero-btn { display: inline-block; padding: 15px 40px; background-color: transparent; border: 1px solid #fff; color: #fff; font-size: 16px; letter-spacing: 1px; text-transform: uppercase; transition: all 0.3s ease; }
+        .hero-btn:hover { background-color: #fff; color: #000; opacity: 1; }
+
+        /* --- TASTO PLAY DI EMERGENZA (Android Fix) --- */
+        #fallbackPlayBtn {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* Play button styling - REMOVED */
-
-        .hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.1));
-            z-index: 2;
-        }
-
-        /* Modifica posizionamento hero content per desktop */
-        .hero-content {
-            position: absolute;
-            top: 25%; /* Spostato ancora più in alto nella pagina */
-            left: 100px;
-            z-index: 3;
-            color: #fff;
-            max-width: 600px;
-        }
-
-
-        .hero-content h1 {
-            font-size: 72px;
-            font-weight: 300;
-            margin-bottom: 20px;
-            line-height: 1.1;
-            letter-spacing: -1px;
-        }
-
-        .hero-content p {
-            font-size: 20px;
-            line-height: 1.5;
-            margin-bottom: 30px;
-            font-weight: 300;
-        }
-
-        .hero-btn {
-            display: inline-block;
-            padding: 15px 40px;
-            background-color: transparent;
+            z-index: 10; /* Sopra a tutto */
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
             border: 1px solid #fff;
-            color: #fff;
-            font-size: 16px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+            cursor: pointer;
+            display: none; /* Nascosto di default */
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease, background 0.3s ease;
         }
-
-        .hero-btn:hover {
-            background-color: #fff;
-            color: #000;
-            opacity: 1;
+        #fallbackPlayBtn:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            background: rgba(255, 255, 255, 0.3);
+        }
+        #fallbackPlayBtn svg {
+            width: 30px;
+            height: 30px;
+            fill: #fff;
+            margin-left: 4px; /* Ottica */
         }
 
         /* Header styles */
-        header {
-            position: fixed;
-            width: 100%;
-            z-index: 1000;
-            padding: 30px 50px;
-            transition: all 0.4s ease;
-        }
-
-        /* Aggiunto: nuova classe per header dopo lo scroll */
-        header.scrolled {
-            background-color: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 20px 50px;
-        }
-
-        header.scrolled .brand,
-        header.scrolled nav ul li a {
-            color: #333;
-        }
-
-        header.scrolled .hamburger span {
-            background: #333;
-        }
-
-        .header-inner {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .brand {
-            font-size: 28px;
-            font-weight: 400;
-            color: #fff;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: color 0.3s ease;
-        }
+        header { position: fixed; width: 100%; z-index: 1000; padding: 30px 50px; transition: all 0.4s ease; }
+        header.scrolled { background-color: rgba(255, 255, 255, 0.95); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); padding: 20px 50px; }
+        header.scrolled .brand, header.scrolled nav ul li a { color: #333; }
+        header.scrolled .hamburger span { background: #333; }
+        .header-inner { display: flex; justify-content: space-between; align-items: center; }
+        .brand { font-size: 28px; font-weight: 400; color: #fff; letter-spacing: 1px; text-transform: uppercase; transition: color 0.3s ease; }
 
         /* Navigation styles */
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
+        nav ul { display: flex; list-style: none; }
+        nav ul li { margin-left: 40px; }
+        nav ul li a { position: relative; font-size: 16px; color: #fff; letter-spacing: 1px; transition: color 0.3s ease; }
+        nav ul li a::after { content: ''; position: absolute; width: 0; height: 1px; background-color: currentColor; bottom: -5px; left: 0; transition: width 0.3s ease; }
+        nav ul li a:hover::after, nav ul li a.active::after { width: 100%; }
 
-        nav ul li {
-            margin-left: 40px;
-        }
+        /* Works styles */
+        .latest-works { padding: 150px 50px; background-color: #fff; }
+        .section-header { margin-bottom: 100px; padding-left: 50px; }
+        .section-title { font-size: 42px; font-weight: 300; margin-bottom: 20px; }
+        .section-subtitle { font-size: 18px; color: #666; max-width: 600px; }
+        .works-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
 
-        nav ul li a {
-            position: relative;
-            font-size: 16px;
-            color: #fff;
-            letter-spacing: 1px;
-            transition: color 0.3s ease;
-        }
+        .work-item { position: relative; overflow: hidden; height: 0; padding-bottom: 125%; }
+        .work-item img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; loading: lazy; }
+        .work-item:hover img { transform: scale(1.05); }
+        .work-caption { position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px; background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); opacity: 0; transform: translateY(20px); transition: all 0.3s ease; color: #fff; }
+        .work-item:hover .work-caption { opacity: 1; transform: translateY(0); }
+        .work-title { font-size: 24px; font-weight: 400; margin-bottom: 5px; }
+        .work-year { font-size: 16px; opacity: 0.8; }
 
-        nav ul li a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 1px;
-            background-color: currentColor;
-            bottom: -5px;
-            left: 0;
-            transition: width 0.3s ease;
-        }
+        .view-all { margin-top: 80px; text-align: right; padding-right: 50px; }
+        .view-all-btn { display: inline-block; padding: 15px 40px; border: 1px solid #333; color: #333; font-size: 16px; letter-spacing: 1px; text-transform: uppercase; transition: all 0.3s ease; }
+        .view-all-btn:hover { background-color: #333; color: #fff; opacity: 1; }
 
-        nav ul li a:hover::after,
-        nav ul li a.active::after {
-            width: 100%;
-        }
+        /* Footer & Misc */
+        footer { padding: 50px; background-color: #f2f2f2; text-align: center; font-size: 14px; color: #666; }
+        .footer-location { margin-top: 10px; font-size: 12px; color: #999; letter-spacing: 1px; text-transform: uppercase; }
 
-        /* Latest works section */
-        .latest-works {
-            padding: 150px 50px;
-            background-color: #fff;
-        }
-
-        .section-header {
-            margin-bottom: 100px;
-            padding-left: 50px;
-        }
-
-        .section-title {
-            font-size: 42px;
-            font-weight: 300;
-            margin-bottom: 20px;
-        }
-
-        .section-subtitle {
-            font-size: 18px;
-            color: #666;
-            max-width: 600px;
-        }
-
-        .works-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-        }
-
-        .work-item {
-            position: relative;
-            overflow: hidden;
-            height: 0;
-            padding-bottom: 125%; /* Aspect ratio 4:5 */
-        }
-
-        .work-item img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-            /* Lazy loading optimization */
-            loading: lazy;
-        }
-
-        .work-item:hover img {
-            transform: scale(1.05);
-        }
-
-        .work-caption {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 30px;
-            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.3s ease;
-            color: #fff;
-        }
-
-        .work-item:hover .work-caption {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .work-title {
-            font-size: 24px;
-            font-weight: 400;
-            margin-bottom: 5px;
-        }
-
-        .work-year {
-            font-size: 16px;
-            opacity: 0.8;
-        }
-
-        .view-all {
-            margin-top: 80px;
-            text-align: right;
-            padding-right: 50px;
-        }
-
-        .view-all-btn {
-            display: inline-block;
-            padding: 15px 40px;
-            border: 1px solid #333;
-            color: #333;
-            font-size: 16px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-        }
-
-        .view-all-btn:hover {
-            background-color: #333;
-            color: #fff;
-            opacity: 1;
-        }
-
-        /* Footer styles */
-        footer {
-            padding: 50px;
-            background-color: #f2f2f2;
-            text-align: center;
-            font-size: 14px;
-            color: #666;
-        }
-
-        /* Hamburger menu for mobile */
-        .hamburger {
-            display: none;
-            width: 30px;
-            height: 20px;
-            position: relative;
-            cursor: pointer;
-            z-index: 1000;
-        }
-
-        .hamburger span {
-            display: block;
-            position: absolute;
-            height: 2px;
-            width: 100%;
-            background: #fff;
-            opacity: 1;
-            left: 0;
-            transform: rotate(0deg);
-            transition: .25s ease-in-out;
-        }
-
-        .hamburger span:nth-child(1) {
-            top: 0px;
-        }
-
-        .hamburger span:nth-child(2),
-        .hamburger span:nth-child(3) {
-            top: 9px;
-        }
-
-        .hamburger span:nth-child(4) {
-            top: 18px;
-        }
-
-        .hamburger.active span:nth-child(1) {
-            top: 9px;
-            width: 0%;
-            left: 50%;
-        }
-
-        .hamburger.active span:nth-child(2) {
-            transform: rotate(45deg);
-        }
-
-        .hamburger.active span:nth-child(3) {
-            transform: rotate(-45deg);
-        }
-
-        .hamburger.active span:nth-child(4) {
-            top: 9px;
-            width: 0%;
-            left: 50%;
-        }
+        /* Hamburger */
+        .hamburger { display: none; width: 30px; height: 20px; position: relative; cursor: pointer; z-index: 1000; }
+        .hamburger span { display: block; position: absolute; height: 2px; width: 100%; background: #fff; opacity: 1; left: 0; transform: rotate(0deg); transition: .25s ease-in-out; }
+        .hamburger span:nth-child(1) { top: 0px; }
+        .hamburger span:nth-child(2), .hamburger span:nth-child(3) { top: 9px; }
+        .hamburger span:nth-child(4) { top: 18px; }
+        .hamburger.active span:nth-child(1) { top: 9px; width: 0%; left: 50%; }
+        .hamburger.active span:nth-child(2) { transform: rotate(45deg); }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg); }
+        .hamburger.active span:nth-child(4) { top: 9px; width: 0%; left: 50%; }
 
         /* Scroll indicator */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 50px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 3;
-            color: #fff;
-            text-align: center;
-        }
+        .scroll-indicator { position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%); z-index: 3; color: #fff; text-align: center; }
+        .scroll-indicator p { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
+        .scroll-indicator .line { width: 1px; height: 40px; background-color: #fff; margin: 0 auto; animation: scrollLine 2s infinite; }
+        @keyframes scrollLine { 0% { height: 0; opacity: 0; } 30% { height: 40px; opacity: 1; } 100% { height: 0; opacity: 0; } }
 
-        .scroll-indicator p {
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-        }
-
-        .scroll-indicator .line {
-            width: 1px;
-            height: 40px;
-            background-color: #fff;
-            margin: 0 auto;
-            animation: scrollLine 2s infinite;
-        }
-
-        @keyframes scrollLine {
-            0% {
-                height: 0;
-                opacity: 0;
-            }
-            30% {
-                height: 40px;
-                opacity: 1;
-            }
-            100% {
-                height: 0;
-                opacity: 0;
-            }
-        }
-
-        /* Media queries for responsive design */
+        /* Media queries */
         @media (max-width: 1024px) {
-            .hero-content {
-                left: 50px;
-                bottom: 100px;
-            }
-
-            .hero-content h1 {
-                font-size: 60px;
-            }
-
-            .works-container {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .section-header {
-                padding-left: 0;
-            }
-
-            .view-all {
-                padding-right: 0;
-            }
+            .hero-content { left: 50px; bottom: 100px; }
+            .hero-content h1 { font-size: 60px; }
+            .works-container { grid-template-columns: repeat(2, 1fr); }
+            .section-header { padding-left: 0; } .view-all { padding-right: 0; }
         }
 
         @media (max-width: 768px) {
-            header {
-                padding: 20px;
-            }
-
-            header.scrolled {
-                padding: 15px 20px;
-            }
-
-            .hamburger {
-                display: block;
-            }
-
-            nav {
-                position: fixed;
-                top: 0;
-                right: 0;
-                width: 70%;
-                height: 100vh;
-                background-color: rgba(0, 0, 0, 0.95);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                transform: translateX(100%);
-                transition: transform 0.3s ease;
-                z-index: 999;
-            }
-
-            header.scrolled nav {
-                background-color: rgba(255, 255, 255, 0.95);
-            }
-
-            header.scrolled nav ul li a {
-                color: #333;
-            }
-
-            nav.active {
-                transform: translateX(0);
-            }
-
-            nav ul {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            nav ul li {
-                margin: 20px 0;
-            }
-
-            .hero-content {
-                left: 20px;
-                top: 25%; /* Posizionato nel primo quarto dello schermo */
-                bottom: auto; /* Rimuove il posizionamento dal basso */
-                max-width: 90%;
-            }
-
-            .hero-content h1 {
-                font-size: 36px; /* Slightly reduced from 40px for better fit */
-            }
-
-            .hero-content p {
-                font-size: 16px;
-                margin-bottom: 20px; /* Reduced from 30px to tighten spacing */
-            }
-
-            .hero-btn {
-                padding: 12px 30px; /* Slightly smaller button for mobile */
-                font-size: 14px; /* Reduced font size for better fit */
-            }
-
-            .latest-works {
-                padding: 80px 20px;
-            }
-
-            .section-title {
-                font-size: 32px;
-            }
-
-            .works-container {
-                grid-template-columns: 1fr;
-            }
-
-            .view-all {
-                margin-top: 60px;
-                text-align: center; /* Center align on mobile */
-                padding-right: 0;
-            }
-
-            .scroll-indicator {
-                display: none;
-            }
+            header { padding: 20px; } header.scrolled { padding: 15px 20px; }
+            .hamburger { display: block; }
+            nav { position: fixed; top: 0; right: 0; width: 70%; height: 100vh; background-color: rgba(0, 0, 0, 0.95); display: flex; align-items: center; justify-content: center; transform: translateX(100%); transition: transform 0.3s ease; z-index: 999; }
+            header.scrolled nav { background-color: rgba(255, 255, 255, 0.95); }
+            header.scrolled nav ul li a { color: #333; }
+            nav.active { transform: translateX(0); }
+            nav ul { flex-direction: column; align-items: center; } nav ul li { margin: 20px 0; }
+            .hero-content { left: 20px; top: 25%; bottom: auto; max-width: 90%; }
+            .hero-content h1 { font-size: 36px; } .hero-content p { font-size: 16px; margin-bottom: 20px; }
+            .hero-btn { padding: 12px 30px; font-size: 14px; }
+            .latest-works { padding: 80px 20px; } .section-title { font-size: 32px; }
+            .works-container { grid-template-columns: 1fr; }
+            .view-all { margin-top: 60px; text-align: center; padding-right: 0; }
+            .scroll-indicator { display: none; }
         }
-        /* Animazione introduttiva */
-      .intro-animation {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background-color: #ffffff;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          z-index: 10000;
-          transition: opacity 0.8s ease-out;
-      }
 
-      .intro-content {
-          text-align: center;
-      }
-
-      /* Stile per il logo dell'intro */
-      .intro-logo {
-          max-width: 500px; /* Aumentato molto la dimensione base (era 250px) */
-          height: auto;
-          opacity: 0;
-          animation: logoFadeIn 1.5s ease-out forwards;
-      }
-
-      /* Animazioni Logo */
-      @keyframes logoFadeIn {
-          0% {
-              opacity: 0;
-              transform: scale(0.9);
-          }
-          100% {
-              opacity: 1;
-              transform: scale(1);
-          }
-      }
-
-/* Nascondi inizialmente il contenuto del sito */
-body > * {
-    opacity: 0;
-    transition: opacity 1s ease;
-}
-
-body.content-visible > * {
-    opacity: 1;
-}
-
-/* L'animazione deve rimanere visibile all'inizio */
-body > .intro-animation {
-    opacity: 1;
-}
-
-/* Stili responsivi per l'animazione introduttiva su mobile */
-@media (max-width: 768px) {
-    .intro-logo {
-        max-width: 300px; /* Aumentato anche per mobile (era 180px) */
-    }
-}
+        /* Intro Animation */
+        .intro-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #ffffff; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 10000; transition: opacity 0.8s ease-out; }
+        .intro-content { text-align: center; }
+        .intro-logo { max-width: 500px; height: auto; opacity: 0; animation: logoFadeIn 1.5s ease-out forwards; }
+        @keyframes logoFadeIn { 0% { opacity: 0; transform: scale(0.9); } 100% { opacity: 1; transform: scale(1); } }
+        body > * { opacity: 0; transition: opacity 1s ease; }
+        body.content-visible > * { opacity: 1; }
+        body > .intro-animation { opacity: 1; }
+        @media (max-width: 768px) { .intro-logo { max-width: 300px; } }
     </style>
 </head>
 <body>
-  <div class="intro-animation" id="introAnimation">
-    <div class="intro-content">
-        <img src="assets/images/logo.png" alt="Viola Totti Art" class="intro-logo">
+    <div class="intro-animation" id="introAnimation">
+        <div class="intro-content">
+            <img src="assets/images/logo.png" alt="Viola Totti Art" class="intro-logo">
+        </div>
     </div>
-</div>
+
     <header id="mainHeader">
         <div class="header-inner">
             <a href="index.html" class="brand-link">
                 <h1 class="brand">Viola Totti</h1>
             </a>
-
-            <div class="hamburger" onclick="toggleMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-
+            <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span><span></span></div>
             <nav id="mainNav">
                 <ul>
                     <li><a href="works.html">Works</a></li>
@@ -616,16 +189,20 @@ body > .intro-animation {
 
     <section class="hero">
         <div class="video-container">
-            <video class="video-background" muted="" loop="" playsinline="" preload="metadata">
-                <source src="assets/videos/Viola23.mp4" type="video/mp4">
+            <video class="video-background" id="heroVideo" autoplay muted loop playsinline webkit-playsinline preload="auto" poster="assets/images/works/artist/violatotti.jpeg">
+                <source src="assets/videos/Viola_no_audio.mp4" type="video/mp4">
             </video>
+
+            <button id="fallbackPlayBtn" aria-label="Play Video">
+                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </button>
         </div>
 
         <div class="hero-overlay"></div>
 
         <div class="hero-content">
             <h1>"Art speaks to the spirit but feeds on the concrete"</h1>
-            <p>Contemporary artist blending traditional techniques to create evocative visual narratives</p>
+            <p>Contemporary artist blending traditional techniques to create evocative visual narratives.</p>
             <a href="works.html" class="hero-btn">Discover Works</a>
         </div>
 
@@ -638,41 +215,31 @@ body > .intro-animation {
     <section class="latest-works">
         <div class="section-header">
             <h2 class="section-title">Recent Works</h2>
-            <p class="section-subtitle">A selection of my latest paintings exploring the relationship between form, color, and emotion.</p>
+            <p class="section-subtitle">A selection of my latest figurative paintings exploring form, color, and emotion.</p>
         </div>
-
         <div class="works-container">
-
-
-
-
-
-
             <a href="work-detail.html?work=quattropere" class="work-item">
-                <img src="assets/images/works/quattropere/RITRATTO_1.jpg" alt="Quattr'Opere - Portrait 1" loading="lazy">
+                <img src="assets/images/works/quattropere/RITRATTO_1.jpg" alt="Quattr'Opere - Figurative Art by Viola Totti Montalcino" loading="lazy">
                 <div class="work-caption">
                     <h3 class="work-title">Quattr'Opere</h3>
                     <p class="work-year">2021-present</p>
                 </div>
             </a>
-
             <a href="work-detail.html?work=barilotto" class="work-item">
-                <img src="assets/images/works/barilotto/barilotto_1.jpg" alt="Barilotto - Main view" loading="lazy">
+                <img src="assets/images/works/barilotto/barilotto_1.jpg" alt="Barilotto - Contemporary Painting Tuscany" loading="lazy">
                 <div class="work-caption">
                     <h3 class="work-title">Barilotto</h3>
                     <p class="work-year">2024</p>
                 </div>
             </a>
-
             <a href="work-detail.html?work=pigmenti" class="work-item">
-                <img src="assets/images/works/pigmenti/tuttipigmenti.jpg" alt="Pigmenti - Complete overview" loading="lazy">
+                <img src="assets/images/works/pigmenti/tuttipigmenti.jpg" alt="Pigmenti - Artwork by Viola Totti" loading="lazy">
                 <div class="work-caption">
                     <h3 class="work-title">Pigmenti</h3>
                     <p class="work-year">2024</p>
                 </div>
             </a>
         </div>
-
         <div class="view-all">
             <a href="works.html" class="view-all-btn">View All Works</a>
         </div>
@@ -680,205 +247,104 @@ body > .intro-animation {
 
     <footer>
         <p>©2025 Viola Totti - All Rights Reserved</p>
+        <p class="footer-location">Studio: Montalcino (SI), Tuscany - Italy</p>
     </footer>
 
     <script>
-        // Toggle mobile menu
+        // UI Interaction Functions
         function toggleMenu() {
             const nav = document.getElementById('mainNav');
             const hamburger = document.querySelector('.hamburger');
-
             nav.classList.toggle('active');
             hamburger.classList.toggle('active');
         }
-
-        // Close menu when clicking outside
         document.addEventListener('click', function(event) {
             const nav = document.getElementById('mainNav');
             const hamburger = document.querySelector('.hamburger');
-
-            if (nav.classList.contains('active') &&
-                !nav.contains(event.target) &&
-                !hamburger.contains(event.target)) {
+            if (nav.classList.contains('active') && !nav.contains(event.target) && !hamburger.contains(event.target)) {
                 nav.classList.remove('active');
                 hamburger.classList.remove('active');
             }
         });
-
-        // Aggiungi/rimuovi classe 'scrolled' dall'header quando si scorre la pagina
         window.addEventListener('scroll', function() {
             const header = document.getElementById('mainHeader');
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
+            if (window.scrollY > 50) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
         });
 
-        // FORCE autoplay - più aggressivo
+        // --- LOGICA VIDEO DEFINITIVA PER ANDROID ---
         document.addEventListener('DOMContentLoaded', function() {
-            const video = document.querySelector('.video-background');
-            const playButton = document.getElementById('videoPlayBtn');
+            const video = document.getElementById('heroVideo');
+            const playBtn = document.getElementById('fallbackPlayBtn');
+            const intro = document.getElementById('introAnimation');
+            const body = document.body;
 
-            if (video) {
-                // Force all video properties
-                video.muted = true;
-                video.defaultMuted = true;
-                video.volume = 0;
-                video.autoplay = true;
-                video.playsInline = true;
-                video.setAttribute('webkit-playsinline', 'true');
-                video.setAttribute('playsinline', 'true');
-                video.setAttribute('autoplay', 'autoplay');
-                video.setAttribute('muted', 'muted');
+            video.muted = true;
+            video.playsInline = true;
 
-                // Immediate force play
-                const forcePlay = () => {
-                    video.play().then(() => {
-                        console.log('✅ Video playing');
-                        if (playButton) playButton.style.display = 'none';
-                    }).catch(e => {
-                        console.log('❌ Autoplay blocked:', e.message);
-                        if (playButton) playButton.style.display = 'flex';
-                    });
-                };
-
-                // Try immediately
-                forcePlay();
-
-                // Force play on ANY user interaction
-                const events = ['touchstart', 'touchend', 'mousedown', 'keydown', 'scroll'];
-                const playOnInteraction = () => {
-                    forcePlay();
-                    // Remove listeners after first success
-                    events.forEach(event => {
-                        document.removeEventListener(event, playOnInteraction);
-                    });
-                };
-
-                events.forEach(event => {
-                    document.addEventListener(event, playOnInteraction, { passive: true });
-                });
-
-                // Try when video loads
-                video.addEventListener('canplay', forcePlay);
-                video.addEventListener('loadeddata', forcePlay);
-
-                // Try when page becomes visible
-                document.addEventListener('visibilitychange', () => {
-                    if (!document.hidden) forcePlay();
-                });
-
-                // Play button handler
-                if (playButton) {
-                    playButton.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        forcePlay();
+            const tryPlay = () => {
+                const promise = video.play();
+                if (promise !== undefined) {
+                    promise.then(() => {
+                        playBtn.style.display = 'none';
+                    }).catch(error => {
+                        console.log("Autoplay bloccato. Mostro tasto play manuale.");
+                        playBtn.style.display = 'flex';
                     });
                 }
+            };
 
-                // Hide button when video plays
-                video.addEventListener('play', () => {
-                    if (playButton) {
-                        playButton.classList.add('hidden');
-                        playButton.style.display = 'none';
-                    }
-                });
+            tryPlay();
 
-                video.addEventListener('pause', () => {
-                    if (playButton && !video.ended) {
-                        playButton.style.display = 'flex';
-                        playButton.classList.remove('hidden');
-                    }
-                });
+            body.classList.remove('content-visible');
+            setTimeout(function() {
+                intro.style.opacity = '0';
+                body.classList.add('content-visible');
+                setTimeout(function() {
+                    intro.style.display = 'none';
+                    if (video.paused) tryPlay();
+                }, 800);
+            }, 2500);
 
-                // Final attempt after 1 second
-                setTimeout(forcePlay, 1000);
-            }
-
-            // Preload critical images
-            const criticalImages = [
-                'assets/images/works/quattropere/RITRATTO_1.jpg',
-                'assets/images/works/barilotto/barilotto_1.jpg',
-                'assets/images/works/pigmenti/tuttipigmenti.jpg'
-            ];
-
-            criticalImages.forEach(src => {
-                const img = new Image();
-                img.src = src;
+            playBtn.addEventListener('click', function() {
+                video.muted = true;
+                video.play();
+                playBtn.style.display = 'none';
             });
 
-            // Smooth scroll on anchor links
+            window.addEventListener('scroll', function() {
+                const scrollPosition = window.pageYOffset;
+                const heroContent = document.querySelector('.hero-content');
+                if (heroContent) {
+                    heroContent.style.transform = `translateY(${scrollPosition * 0.2}px)`;
+                    heroContent.style.opacity = 1 - (scrollPosition * 0.002);
+                }
+            });
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     e.preventDefault();
-
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-
-                    if (targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop,
-                            behavior: 'smooth'
-                        });
-                    }
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) window.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
                 });
             });
         });
-
-        // Parallax effect on scroll
-        window.addEventListener('scroll', function() {
-            const scrollPosition = window.pageYOffset;
-            const heroContent = document.querySelector('.hero-content');
-
-            if (heroContent) {
-                heroContent.style.transform = `translateY(${scrollPosition * 0.2}px)`;
-                heroContent.style.opacity = 1 - (scrollPosition * 0.002);
-            }
-        });
     </script>
-
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script>
-    // Script per l'animazione introduttiva
-    document.addEventListener('DOMContentLoaded', function() {
-        const introAnimation = document.getElementById('introAnimation');
-        const body = document.body;
-
-        // Inizialmente nascondi tutto tranne l'animazione
-        body.classList.remove('content-visible');
-
-        // Mostra il contenuto del sito dopo l'animazione
-        setTimeout(function() {
-            // Avvia la dissolvenza dell'intro
-            introAnimation.style.opacity = '0';
-
-            // Mostra il contenuto del sito
-            body.classList.add('content-visible');
-
-            // Rimuovi completamente l'animazione dopo la dissolvenza
-            setTimeout(function() {
-                introAnimation.style.display = 'none';
-            }, 800);
-        }, 2500); // Durata totale visualizzazione logo
-    });
-</script>
-
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-<script>
-  (function () {
-    var hash = window.location.hash || '';
-    if (/(invite_token|confirmation_token|recovery_token)/.test(hash)) {
-      if (!/\/admin\/?/.test(window.location.pathname)) {
-        window.location.replace('/admin/' + hash);
-        return;
-      }
-    }
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on('login', function () {
-        window.location.href = '/admin/';
-      });
-    }
-  })();
-</script>
+    (function () {
+        var hash = window.location.hash || '';
+        if (/(invite_token|confirmation_token|recovery_token)/.test(hash)) {
+            if (!/\/admin\/?/.test(window.location.pathname)) {
+                window.location.replace('/admin/' + hash);
+                return;
+            }
+        }
+        if (window.netlifyIdentity) {
+            window.netlifyIdentity.on('login', function () {
+                window.location.href = '/admin/';
+            });
+        }
+    })();
+    </script>
 </body>
 </html>

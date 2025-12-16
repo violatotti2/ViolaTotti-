@@ -37,7 +37,27 @@
 
         .form-group { margin-bottom: 30px; }
         .form-label { display: block; margin-bottom: 10px; font-size: 16px; }
-        .form-input, .form-textarea { width: 100%; padding: 15px; border: 1px solid #ddd; background-color: #f2f2f2; font-size: 14px; }
+
+        /* Updated Styles for Select and Inputs */
+        .form-input, .form-textarea, select.form-input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            background-color: #f2f2f2;
+            font-size: 14px;
+            border-radius: 0;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        select.form-input {
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23333%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px top 50%;
+            background-size: 10px auto;
+            cursor: pointer;
+        }
+
         .form-input:focus, .form-textarea:focus { outline: none; border-color: #aaa; }
         .form-textarea { min-height: 150px; resize: vertical; }
 
@@ -133,9 +153,23 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="subject" class="form-label">Subject</label>
-                                <input type="text" id="subject" name="subject" class="form-input" required>
-                                <div class="error-message">Please enter a subject</div>
+                                <label for="subject" class="form-label">Type of Enquiry</label>
+                                <select id="subject" name="subject" class="form-input" required>
+                                    <option value="" disabled selected>Select an option...</option>
+                                    <option value="abstract">Artist-Conceived Commission – Abstract Art</option>
+                                    <option value="visual_ref">Commission with Visual Reference (Portrait, Landscape)</option>
+                                    <option value="life_portrait">Portrait from Life</option>
+                                    <option value="available_works">Information on Available Works</option>
+                                    <option value="general">General Inquiry / Other</option>
+                                </select>
+                                <div class="error-message">Please select an enquiry type</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="size" class="form-label">Preferred Format</label>
+                                <select id="size" name="size" class="form-input">
+                                    <option value="" selected>Please select "Type of Enquiry" first...</option>
+                                </select>
                             </div>
 
                             <div class="form-group">
@@ -183,6 +217,7 @@
     <footer><p>&copy;2025 Viola Totti - All Rights Reserved</p></footer>
 
     <script>
+        // Menu Toggle
         function toggleMenu() {
             const nav = document.getElementById('mainNav');
             const hamburger = document.querySelector('.hamburger');
@@ -196,28 +231,95 @@
             }
         });
 
+        // --- GESTIONE DINAMICA SENZA PREZZI ---
         document.addEventListener('DOMContentLoaded', function() {
+            const subjectSelect = document.getElementById('subject');
+            const sizeSelect = document.getElementById('size');
+
+            // Listino formati (SENZA EURO)
+            const priceOptions = {
+                // Astratto
+                'abstract': [
+                    { value: '', text: 'Select a size...' },
+                    { value: 'Small Format', text: 'Small Format (18×25 – 20×30 cm)' },
+                    { value: 'Medium Format', text: 'Medium Format (30×40 – 60×80 cm)' },
+                    { value: 'Large Format', text: 'Large Format (80×100 – 100×200 cm)' },
+                    { value: 'Custom', text: 'Other / Custom Size' }
+                ],
+                // Riferimento Visivo (Stessi formati, ma serve duplicare se vuoi testi diversi in futuro)
+                'visual_ref': [
+                    { value: '', text: 'Select a size...' },
+                    { value: 'Small Format', text: 'Small Format (18×25 – 20×30 cm)' },
+                    { value: 'Medium Format', text: 'Medium Format (30×40 – 60×80 cm)' },
+                    { value: 'Large Format', text: 'Large Format (80×100 – 100×200 cm)' },
+                    { value: 'Custom', text: 'Other / Custom Size' }
+                ],
+                // Ritratto dal vero (Solo standard)
+                'life_portrait': [
+                    { value: '', text: 'Select a format...' },
+                    { value: 'Standard Life Portrait', text: 'Standard Format (18×25 cm)' },
+                    { value: 'Custom Request', text: 'Other Format / Extended Session (On Request)' }
+                ],
+                // Default
+                'default': [
+                    { value: 'N/A', text: 'Not Applicable' }
+                ]
+            };
+
+            // Ascolta il cambiamento del menu
+            subjectSelect.addEventListener('change', function() {
+                const selectedType = this.value;
+                let options = [];
+
+                if (priceOptions[selectedType]) {
+                    options = priceOptions[selectedType];
+                    sizeSelect.disabled = false;
+                } else if (selectedType === 'available_works' || selectedType === 'general') {
+                    options = priceOptions['default'];
+                    sizeSelect.disabled = true;
+                } else {
+                    options = [{ value: '', text: 'Please select "Type of Enquiry" first...' }];
+                    sizeSelect.disabled = true;
+                }
+
+                // Svuota e ripopola
+                sizeSelect.innerHTML = '';
+                options.forEach(function(opt) {
+                    const el = document.createElement('option');
+                    el.value = opt.value;
+                    el.textContent = opt.text;
+                    sizeSelect.appendChild(el);
+                });
+            });
+
+            // Validazione
             const contactForm = document.getElementById('contactForm');
             if (contactForm) {
                 contactForm.addEventListener('submit', function(e) {
                     let isValid = true;
-                    const inputs = contactForm.querySelectorAll('.form-input, .form-textarea');
+                    const inputs = contactForm.querySelectorAll('.form-input[required], .form-textarea[required]');
+
                     inputs.forEach(input => {
                         if (!input.value.trim()) {
                             input.classList.add('invalid');
-                            input.nextElementSibling.style.display = 'block';
+                            const errorMsg = input.parentNode.querySelector('.error-message');
+                            if(errorMsg) errorMsg.style.display = 'block';
                             isValid = false;
                         } else {
                             input.classList.remove('invalid');
-                            input.nextElementSibling.style.display = 'none';
+                            const errorMsg = input.parentNode.querySelector('.error-message');
+                            if(errorMsg) errorMsg.style.display = 'none';
                         }
                     });
+
                     if (!isValid) { e.preventDefault(); }
                 });
+
                 contactForm.querySelectorAll('.form-input, .form-textarea').forEach(input => {
                     input.addEventListener('input', function() {
                         this.classList.remove('invalid');
-                        this.nextElementSibling.style.display = 'none';
+                        const errorMsg = this.parentNode.querySelector('.error-message');
+                        if(errorMsg) errorMsg.style.display = 'none';
                     });
                 });
             }
