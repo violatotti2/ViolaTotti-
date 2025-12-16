@@ -1,14 +1,13 @@
 <!doctype html>
-<html lang="en"> <head>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta name="google-site-verification" content="iAOyLXcSt9qt0CNXTXiXI3pxxcc4ulHslAaNrjX9Ko8" />
 
     <title>Viola Totti | Artist in Montalcino - Figurative Art Tuscany</title>
-
     <meta name="description" content="Viola Totti is a contemporary figurative artist based in Montalcino (Siena), Tuscany. Exploring traditional egg tempera and visual narratives in the heart of Val d'Orcia.">
-
     <meta name="keywords" content="Viola Totti, Artisti Montalcino, Pittori Toscana, Arte Figurativa, Figurative Art Tuscany, Montalcino Artist, Italian Contemporary Art, Egg Tempera">
 
     <meta property="og:title" content="Viola Totti - Artist in Montalcino">
@@ -27,14 +26,55 @@
         .brand-link { text-decoration: none; color: inherit; display: inline-block; transition: opacity 0.3s ease; }
         .brand-link:hover { opacity: 0.8; cursor: pointer; }
 
-        /* Video hero section */
-        .hero { position: relative; width: 100%; height: 100vh; overflow: hidden; }
-        .video-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 1; }
-        .video-background { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; object-fit: cover; }
+        /* HERO SECTION - STRUTTURA A LIVELLI */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #000; /* Sfondo nero di sicurezza */
+        }
+
+        /* LIVELLO 1 (SOTTO): L'IMMAGINE DI FALLBACK
+           Si vede sempre appena carichi la pagina.
+           Se il video fallisce (Android/Low Power), l'utente continua a vedere questa. */
+        .fallback-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        /* LIVELLO 2 (SOPRA): IL CONTENITORE VIDEO */
+        .video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2; /* Sta sopra la foto */
+        }
+
+        /* IL VIDEO PARTE INVISIBILE */
+        .video-background {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0; /* Invisibile di default per non mostrare schermate nere */
+            transition: opacity 1.5s ease; /* Appare dolcemente se parte */
+        }
+
+        /* Classe che il JS aggiungerà SOLO se il video parte davvero */
+        .video-background.is-playing {
+            opacity: 1;
+        }
 
         /* HERO OVERLAY & CONTENT */
-        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.1)); z-index: 2; }
-        .hero-content { position: absolute; top: 25%; left: 100px; z-index: 3; color: #fff; max-width: 600px; pointer-events: none; }
+        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.1)); z-index: 3; }
+        .hero-content { position: absolute; top: 25%; left: 100px; z-index: 4; color: #fff; max-width: 600px; pointer-events: none; }
         .hero-content * { pointer-events: auto; }
 
         .hero-content h1 { font-size: 72px; font-weight: 300; margin-bottom: 20px; line-height: 1.1; letter-spacing: -1px; }
@@ -42,36 +82,6 @@
 
         .hero-btn { display: inline-block; padding: 15px 40px; background-color: transparent; border: 1px solid #fff; color: #fff; font-size: 16px; letter-spacing: 1px; text-transform: uppercase; transition: all 0.3s ease; }
         .hero-btn:hover { background-color: #fff; color: #000; opacity: 1; }
-
-        /* --- TASTO PLAY DI EMERGENZA (Android Fix) --- */
-        #fallbackPlayBtn {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 10; /* Sopra a tutto */
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid #fff;
-            backdrop-filter: blur(4px);
-            cursor: pointer;
-            display: none; /* Nascosto di default */
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.3s ease, background 0.3s ease;
-        }
-        #fallbackPlayBtn:hover {
-            transform: translate(-50%, -50%) scale(1.1);
-            background: rgba(255, 255, 255, 0.3);
-        }
-        #fallbackPlayBtn svg {
-            width: 30px;
-            height: 30px;
-            fill: #fff;
-            margin-left: 4px; /* Ottica */
-        }
 
         /* Header styles */
         header { position: fixed; width: 100%; z-index: 1000; padding: 30px 50px; transition: all 0.4s ease; }
@@ -188,14 +198,12 @@
     </header>
 
     <section class="hero">
+        <img src="assets/images/works/artist/violatotti.jpeg" alt="Viola Totti Artwork" class="fallback-image">
+
         <div class="video-container">
-            <video class="video-background" id="heroVideo" autoplay muted loop playsinline webkit-playsinline preload="auto" poster="assets/images/works/artist/violatotti.jpeg">
+            <video class="video-background" id="heroVideo" autoplay muted loop playsinline webkit-playsinline preload="auto">
                 <source src="assets/videos/Viola_no_audio.mp4" type="video/mp4">
             </video>
-
-            <button id="fallbackPlayBtn" aria-label="Play Video">
-                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-            </button>
         </div>
 
         <div class="hero-overlay"></div>
@@ -272,46 +280,55 @@
             else header.classList.remove('scrolled');
         });
 
-        // --- LOGICA VIDEO DEFINITIVA PER ANDROID ---
+        // --- GHOST VIDEO LOGIC (SOLUZIONE BLINDATA) ---
         document.addEventListener('DOMContentLoaded', function() {
             const video = document.getElementById('heroVideo');
-            const playBtn = document.getElementById('fallbackPlayBtn');
             const intro = document.getElementById('introAnimation');
             const body = document.body;
 
+            // Configurazione essenziale per iOS/Android
             video.muted = true;
             video.playsInline = true;
+            video.setAttribute('playsinline', '');
 
-            const tryPlay = () => {
-                const promise = video.play();
-                if (promise !== undefined) {
-                    promise.then(() => {
-                        playBtn.style.display = 'none';
-                    }).catch(error => {
-                        console.log("Autoplay bloccato. Mostro tasto play manuale.");
-                        playBtn.style.display = 'flex';
-                    });
-                }
+            // Funzione che svela il video solo se è partito davvero
+            const revealVideo = () => {
+                video.classList.add('is-playing');
+                console.log("Video partito: visualizzazione attivata.");
             };
 
-            tryPlay();
+            // Ascoltiamo vari eventi di "successo"
+            video.addEventListener('playing', revealVideo);
+            video.addEventListener('timeupdate', function() {
+                 if (video.currentTime > 0.1 && !video.classList.contains('is-playing')) {
+                     revealVideo();
+                 }
+            });
 
+            // Tentiamo il play
+            const promise = video.play();
+            if (promise !== undefined) {
+                promise.catch(error => {
+                    // Se fallisce (Low Power Mode):
+                    // Il video resta con opacity: 0 (invisibile).
+                    // Sotto c'è l'immagine .fallback-image che si vede perfettamente.
+                    console.log("Autoplay bloccato. Resto sull'immagine fissa.");
+                });
+            }
+
+            // Animazione Intro
             body.classList.remove('content-visible');
             setTimeout(function() {
                 intro.style.opacity = '0';
                 body.classList.add('content-visible');
                 setTimeout(function() {
                     intro.style.display = 'none';
-                    if (video.paused) tryPlay();
+                    // Riprova il play dopo l'intro (utile per alcuni browser)
+                    if (video.paused) video.play().catch(e => {});
                 }, 800);
             }, 2500);
 
-            playBtn.addEventListener('click', function() {
-                video.muted = true;
-                video.play();
-                playBtn.style.display = 'none';
-            });
-
+            // Parallax
             window.addEventListener('scroll', function() {
                 const scrollPosition = window.pageYOffset;
                 const heroContent = document.querySelector('.hero-content');
