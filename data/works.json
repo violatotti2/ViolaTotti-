@@ -1,5 +1,25 @@
 {
-  "works": [
+  "works": [    {
+      "slug": "chiaro-di-luna",
+      "title": "Moonlight",
+      "year": "2026",
+      "medium": "Acrylic on panel",
+      "description": "A commissioned artwork that begins with an abstract language and gradually opens into figuration, creating an encounter between color, texture, and landscape.",
+      "materials": "Acrylic on panel",
+      "dimensions": "160 × 75 cm",
+      "categories": [
+        "landscapes"
+      ],
+      "mediaType": "landscape",
+      "images": [
+        {
+          "src": "assets/images/works/chiaro-di-luna.jpg",
+          "alt": "Moonlight",
+          "type": "image",
+          "format": "landscape"
+        }
+      ]
+    },
     {
       "slug": "quattropere",
       "title": "Quattr'Opere",
